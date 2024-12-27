@@ -1,33 +1,33 @@
-const express =require('express');
-const app=express();
-const cors=require('cors');
-const {dbConnection}=require('./db/dbonnection.js');
-const {routes} = require('./routes.js');
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const { dbConnection } = require('./db/dbonnection.js');
+const { routes } = require('./routes.js');
 require('dotenv').config();
 
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-console.log('Loaded routes:', routes);
+// Log loaded routes
+// console.log('Loaded routes:', routes);
 
-routes.map((route) => {
+// Apply routes
+routes.forEach((route) => {
     app.use(route.path, route.handler);
-})
+});
 
-const Port =process.env.PORT || 5000;
+// Set the port
+const Port = process.env.PORT || 5000;
 
-
-app.listen(Port,async (req,res)=>{
-    await dbConnection();
-    console.log(`server is listening ${Port} ..`);
-})
-
-
-
-
-
-
-
-
-
-
+// Start the server
+app.listen(Port, async () => {
+    try {
+        await dbConnection();
+        console.log(`Server is listening on port ${Port}..`);
+    } catch (error) {
+        console.error('Failed to connect to database:', error);
+        process.exit(1); // Exit process with failure
+    }
+});
