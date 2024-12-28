@@ -42,7 +42,7 @@ const fs= require('fs');
 
      if (fs.existsSync(localFilePath)) {
         await fs.promises.unlink(localFilePath); // Use async unlink
-        console.log('File ${localFilePath} has been deleted.');
+        console.log(`File ${localFilePath} has been deleted.`);
     }
     return fileUrl;
 
