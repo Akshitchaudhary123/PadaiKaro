@@ -174,6 +174,7 @@ exports.getAllNotes = async(req,res)=>{
         success:false,
         message:"Internal Server Error",
         result:{
+            error:error
         }
     })
    }
