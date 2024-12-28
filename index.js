@@ -4,11 +4,13 @@ const cors = require('cors');
 const { dbConnection } = require('./db/dbonnection.js');
 const { routes } = require('./routes.js');
 require('dotenv').config();
+const path = require('path');
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.static(path.join(__dirname,'public')));
 
 // Log loaded routes
 // console.log('Loaded routes:', routes);

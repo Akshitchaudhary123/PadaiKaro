@@ -18,7 +18,7 @@ require('dotenv').config()
 
  exports.verifyToken =(req,res,next)=>{
     let {token} = req.headers;
-    token = token.trim();
+    // token = token.trim();
     try {
         if(!token){
             return res.send({
