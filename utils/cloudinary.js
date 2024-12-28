@@ -41,8 +41,8 @@ const fs= require('fs');
      // Remove the file from the local file system
 
      if (fs.existsSync(localFilePath)) {
-        fs.unlinkSync(localFilePath); // Delete the file synchronously
-        console.log(`File ${localFilePath} has been deleted.`);
+        await fs.promises.unlink(localFilePath); // Use async unlink
+        console.log('File ${localFilePath} has been deleted.');
     }
     return fileUrl;
 
