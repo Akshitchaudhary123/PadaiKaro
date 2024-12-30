@@ -4,6 +4,8 @@ const brcypt = require('bcryptjs');
 const { generateToken } = require('../../../middlewares/verifyJWT');
 const  sendEmail  = require('../../../utils/nodeMailer');
 const generateOTP =require('./../../../utils/generateOTP');
+const { uploadOnCloudinary } = require('../../../utils/cloudinary');
+const { findByIdAndUpdate } = require('../../notes/model/notesModel');
 
 
 exports.createUser =async (req,res)=>{
@@ -399,5 +401,107 @@ exports.login=async(req,res)=>{
         
     }
     
+
+}
+
+exports.userDetails = async(req,res)=>{
+try {
+     let {_id} = req.token;
+     console.log(`_id: ${_id}`);
+    
+     let user = await User.findById({_id}).select('-_id -__v -status -otpExpireTime -otp -authorised -password');
+     if(!user){
+        return res.send({
+            statusCode: 404,
+            success: false,
+            message: "user not found",
+            result: {},
+          });
+     }
+    
+     return res.send({
+        statusCode: 200,
+        success: true,
+        message: "user details fetched successfully",
+        result: {
+            user:user
+        },
+      });
+} catch (error) {
+    return res.send({
+        statusCode: 500,
+        success: false,
+        message: "Internal Server Error",
+        result: {},
+      });
+}
+
+}
+
+exports.editProfile = async(req,res)=>{
+    try {
+        let {name,education,bio,interests} =req.body;
+        let {_id} =req.token;
+        console.log(interests);
+    
+    
+        name=name.trim();
+        education=education.trim();
+        bio=bio.trim();
+    
+        let user = await User.findById(_id);
+            if(!user){
+                return res.send({
+                    statusCode: 404,
+                    success: false,
+                    message: "user not found",
+                    result: {},
+                  });
+             }
+             let profileUrl=user.profileUrl;
+            if(req.file){
+    
+              profileUrl= await  uploadOnCloudinary(req.file.path);
+            }
+    
+            name=name??user.name;
+            education=education??user.education;
+            bio=bio??user.bio;
+            profileUrl=profileUrl??user.profileUrl;
+            if(interests.length==0){
+                interests=user.interests
+            }
+    
+            user = await User.findOneAndUpdate({_id:_id},{
+                $set:{
+                    name:name,
+                    education:education,
+                    bio:bio,
+                    profileUrl:profileUrl,
+                    interests:interests
+               }
+            },{new:true})
+    
+                return res.send({
+                    statusCode: 200,
+                    success: true,
+                    message: "user updated successfully",
+                    result: {
+                        user:user
+                    },
+                  });
+             
+    } catch (error) {
+        console.log('error in edit profile: ',error);
+        return res.send({
+            statusCode: 500,
+            success: false,
+            message: "Internal Server Error",
+            result: {},
+          });
+    }
+
+    
+
 
 }

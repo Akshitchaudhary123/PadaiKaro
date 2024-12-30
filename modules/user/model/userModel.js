@@ -1,4 +1,4 @@
-const { Timestamp } = require('mongodb');
+
 const mongoose=require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -46,7 +46,43 @@ const userSchema = new mongoose.Schema({
     otp:{
         type:String,
         default:""
+    },
+    profileUrl:{
+     type:String,
+     default:""
+    },
+    quizzes:{
+        type:String,
+        default:"0" 
+    },
+    accuracy:{
+        type:String,
+        default:"0"
+    },
+    points:{
+        type:String,
+        default:"0"
+    },
+    achievements:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Achievement'
+    }],
+   recentActivity:[
+    {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Quiz'
     }
+   ],
+   interests:[
+    {
+        type:String
+    }
+   ],
+   bio:{
+    type:String,
+    trim:true
+   }
+
 },{timestamps:true});
 
 const User = mongoose.model('User',userSchema);
