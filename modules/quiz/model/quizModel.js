@@ -1,41 +1,61 @@
 const mongoose = require('mongoose');
 
 const quizSchema = new mongoose.Schema({
-  type: {
+  category: {
     type: String,
-    // enum: ['gold', 'silver', 'bronze', 'expert'],
     required: true,
   },
-  timeTaken: {
-    type: String, 
+  quizType: {
+    type: String,
+    enum: ['practice', 'contest'],
     required: true,
-    default:"0"
   },
+  subject:{
+   type:String,
+   required:function(){
+    return (this.category==='10'|| this.category==='12');
+   }
+  },
+  level: {
+    type: Number,
+    default:1,
+    required: true,
+  },
+  
   points: {
-    type: String, 
+    type: Number, 
     required: true,
-    default:"0"
+    default:0
   },
-  accuracy: {
-    type: String, 
-    required: true,
-    default:"0"
-  },
-  questionsSolved: {
-    type: String, 
-    required: true,
-    default:"0"
-  },
-  questionsUnsolved: {
-    type: String, 
-    required: true,
-    default:"0"
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
-    required: true,
-  },
+  
+  questions:[{
+    question: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    answer: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    options: [
+        {
+           number:{
+            type:Number
+           },
+           value:{
+            type:String,
+            default:""
+           }
+        }
+    ],
+    
+},
+]
+    
+
+  
  
 },{timestamps:true});
 

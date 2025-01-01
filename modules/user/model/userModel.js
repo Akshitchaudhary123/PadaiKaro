@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     status:{
       type:String,
-      enum: ["Active","Inactive"],
+      enum: ["Active","Delete"],
       default:"Active"
     },
     authorised:{
@@ -52,16 +52,16 @@ const userSchema = new mongoose.Schema({
      default:""
     },
     quizzes:{
-        type:String,
-        default:"0" 
+        type:Number,
+        default:0 
     },
     accuracy:{
-        type:String,
-        default:"0"
+        type:Number,
+        default:0
     },
     points:{
-        type:String,
-        default:"0"
+        type:Number,
+        default:0
     },
     achievements:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -70,9 +70,13 @@ const userSchema = new mongoose.Schema({
    recentActivity:[
     {
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Quiz'
+        ref:'Activity'
     }
    ],
+   quizResponse:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Response'
+   },
    interests:[
     {
         type:String

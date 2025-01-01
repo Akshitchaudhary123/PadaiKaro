@@ -31,6 +31,11 @@ const notesSchema = new mongoose.Schema({
         type: String,
         required: true, 
     },
+    chapter:{
+        type:Number,
+        // required:true,
+        // default:1
+    },
     type: {
         type: String,
         required: true,

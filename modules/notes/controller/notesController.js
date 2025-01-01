@@ -129,10 +129,6 @@ const Notes = require('./../model/notesModel');
         })
     }
     
-
-
-
-
 }
 
 exports.getAllNotes = async(req,res)=>{
@@ -150,7 +146,6 @@ exports.getAllNotes = async(req,res)=>{
              success:false,
              message:"No Notes Found",
              result:{}
- 
  
          })
      }
