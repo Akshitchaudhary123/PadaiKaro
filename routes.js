@@ -1,6 +1,7 @@
 const userRouter = require('./modules/user/route/userRoute.js');
 const notesRouter = require('./modules/notes/route/notesRoute.js');
-const quizRouter = require('./modules/quiz/route/quizRoute.js')
+const quizRouter = require('./modules/quiz/route/quizRoute.js');
+const responseRouter= require('./modules/response/route/responseRoute.js')
 
 // Primary Routes
 exports.routes=[
@@ -20,6 +21,11 @@ exports.routes=[
         path:"/api/quiz",
         handler:quizRouter,
         schema:'Quiz'
+    },
+    {
+        path:"/api/response",
+        handler:responseRouter,
+        schema:'Response'
     }
 
 ]
