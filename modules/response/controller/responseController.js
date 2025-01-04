@@ -199,7 +199,9 @@ exports.saveResponse=async(req,res)=>{
 exports.getAchievementsQuiz= async(req,res)=>{
 
     try {
-        let {medal,userId}  = req.params;
+        let medal  = req.params.medal;
+        // console.log("medal",medal);
+        let userId = req.token._id;
         if(!medal){
             return res.send({
                 statusCode:400,
@@ -209,16 +211,7 @@ exports.getAchievementsQuiz= async(req,res)=>{
     
             })
         }
-        if(!userId){
-            return res.send({
-                statusCode:400,
-                success:false,
-                message:"User Id is required",
-                result:{}
-    
-            })
-        }
-    
+        
         let responses = await Response.find({medal:medal},{user:userId}).sort({points:-1}).populate('quiz');
         if(!responses){
             return res.send({
