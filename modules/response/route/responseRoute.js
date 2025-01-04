@@ -6,5 +6,6 @@ const upload = require('./../../../middlewares/multer');
 
 
 responseRouter.post('/save-response',verifyToken,upload.none(),responseController.saveResponse);
+responseRouter.get('/achievement-quiz/:userId/:medal',verifyToken,responseController.getAchievementsQuiz);
 
 module.exports=responseRouter;

@@ -21,6 +21,15 @@ const responseSchema = new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
+    },
+    quiz:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Quiz"
+    },
+    medal:{
+        type:String,
+        required:true,
+        default:""
     }
     
 })

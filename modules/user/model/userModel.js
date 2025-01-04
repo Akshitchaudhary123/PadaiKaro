@@ -73,10 +73,6 @@ const userSchema = new mongoose.Schema({
         ref:'Activity'
     }
    ],
-   quizResponse:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Response'
-   },
    interests:[
     {
         type:String

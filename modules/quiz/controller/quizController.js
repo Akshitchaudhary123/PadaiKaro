@@ -103,7 +103,6 @@ exports.createQuiz=async(req,res)=>{
     }
 }
 
-
 exports.updateQuiz=async(req,res)=>{
 
     try {
@@ -207,6 +206,60 @@ exports.updateQuiz=async(req,res)=>{
             result:{error:error}
         })
         
+    }
+}
+
+exports.getQuiz= async(req,res)=>{
+
+    try {
+        let quizId = req.params.quizId;
+    
+        if(!quizId){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Quiz Id is required",
+                result:{}
+            })
+        }
+    
+        let quiz = await Quiz.findById(quizId);
+        if(!quiz){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Quiz not found",
+                result:{}
+            })
+        }
+    
+        let questions = quiz.questions;
+        if(!questions){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Questions not found",
+                result:{}
+            })
+        }
+       
+        return res.send({
+            statusCode:200,
+            success:true,
+            message:"Quiz fetched successfully",
+            result:{
+                questions:questions
+            }
+        })
+    
+    } catch (error) {
+        console.log("error in fetching questions",error);
+        return res.send({
+            statusCode:500,
+            success:false,
+            message:"Internal Server Error",
+            result:{}
+        })
     }
 }
 
