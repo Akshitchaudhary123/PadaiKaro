@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
      type:String,
      default:""
     },
-    quizzes:{
+    quizCount:{
         type:Number,
         default:0 
     },
@@ -63,10 +63,10 @@ const userSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
-    achievements:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Achievement'
-    }],
+    quizPointsCount:{
+        type:Number,
+        default:0
+    },
    recentActivity:[
     {
         type:mongoose.Schema.Types.ObjectId,

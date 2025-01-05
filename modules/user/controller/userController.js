@@ -1,4 +1,5 @@
 const User = require('./../model/userModel');
+const Response = require('./../../response/model/responseModel');
 const validator = require('validator');
 const brcypt = require('bcryptjs');
 const { generateToken } = require('../../../middlewares/verifyJWT');
@@ -409,7 +410,12 @@ try {
      let {_id} = req.token;
      console.log(`_id: ${_id}`);
     
-     let user = await User.findById({_id}).select('-_id -__v -status -otpExpireTime -otp -authorised -password');
+     let user = await User.findById({_id}).select('-_id -__v -status -otpExpireTime -otp -authorised -password -quizPointsCount').populate('recentActivity');
+     let expertResponse = await Response.find({user:_id,medal:'Expert'});
+     let goldResponse = await Response.find({user:_id,medal:'Gold'});
+     let silverResponse = await Response.find({user:_id,medal:'Silver'});
+     let bronzeResponse = await Response.find({user:_id,medal:'Bronze'});
+     
      if(!user){
         return res.send({
             statusCode: 404,
@@ -418,21 +424,38 @@ try {
             result: {},
           });
      }
+     
+     if(!expertResponse||!goldResponse||!silverResponse||!bronzeResponse){
+        return res.send({
+            statusCode: 404,
+            success: false,
+            message: "achievement not found",
+            result: {},
+          });
+     }
+     
     
      return res.send({
         statusCode: 200,
         success: true,
         message: "user details fetched successfully",
         result: {
-            user:user
+            user:user,
+            achievements:{
+                Expert:expertResponse,
+                Gold:goldResponse,
+                Silver:silverResponse,
+                Bronze:bronzeResponse
+            }
         },
       });
 } catch (error) {
+    console.log("error in fetching user",error);
     return res.send({
         statusCode: 500,
         success: false,
         message: "Internal Server Error",
-        result: {},
+        result: {error:error},
       });
 }
 

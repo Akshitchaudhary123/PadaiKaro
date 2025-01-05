@@ -32,7 +32,7 @@ const responseSchema = new mongoose.Schema({
         default:""
     }
     
-})
+},{timestamps:true})
 
 const Response= mongoose.model('Response',responseSchema);
 module.exports= Response;

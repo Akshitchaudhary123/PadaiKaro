@@ -10,6 +10,8 @@ exports.saveResponse=async(req,res)=>{
         let {_id}= req.token;
         // console.log("_id",_id);
         // console.log("type of _id is:",typeof(_id));
+
+        let quizAdded =0;
     
         if(!points){
             return res.send({
@@ -69,9 +71,11 @@ exports.saveResponse=async(req,res)=>{
         const endTimeParsed = new Date(endTime).getTime();
         
         let timeTaken = endTimeParsed-startTimeParsed;
-        console.log("time taken type is:",typeof(timeTaken));
+        // console.log("time taken type is:",typeof(timeTaken));
 
         let quiz = await Quiz.findById(quizId);
+        // let quizTotalPoints= quiz.points;
+        // console.log("quizTotalPoints",quizTotalPoints);
         if(!quiz){
             return res.send({
                 statusCode:404,
@@ -83,26 +87,27 @@ exports.saveResponse=async(req,res)=>{
         }
         let quizPoints = quiz.points;
         let percentage = (points/quizPoints)*100;
+        console.log("percentage:",percentage);
         let medal="";
 
-        if(90<percentage<=100){
+        if(percentage>90&&percentage<=100){
            medal="Expert"
         }
-        else if(80<percentage<=90){
+        else if(percentage>80&&percentage<=90){
             medal="Gold"
         }
-        else if(70<percentage<=80){
+        else if(percentage>70&&percentage<=80){
             medal="Silver"
         }
         else{
             medal="Bronze"
         }
 
-
+        let prevPoints=0;
         let existResponse = await Response.findOne({quiz:quizId});
         let response;
         if(existResponse){
-          
+            prevPoints = existResponse.points;
             response = await Response.findOneAndUpdate({quiz:quizId},{
                 $set:{
                     points:points,timeTaken:timeTaken,questionSolved:questionSolved,
@@ -112,13 +117,13 @@ exports.saveResponse=async(req,res)=>{
 
         }
         else{
-
              response = new Response({
                 points:points,timeTaken:timeTaken,questionSolved:questionSolved,questionUnsolved:questionUnsolved,
                 user:_id,quiz:quizId,medal:medal
             });
     
             response = await response.save();
+            quizAdded=1;
             if(!response){
                 return res.send({
                     statusCode:400,
@@ -151,12 +156,30 @@ exports.saveResponse=async(req,res)=>{
     
             })
         }
+        let user = await User.findById(_id);
+        console.log("user quizzes Count",user.quizCount);
+        let newPoints = points - prevPoints;
+        let userTotalPoints=user.points;
+        let quizTotalMaxPoints = user.quizPointsCount;
+        userTotalPoints +=newPoints;
+        let quizCount = user.quizCount;
+        if(quizAdded!=0){
+         quizTotalMaxPoints += quizPoints;
+         quizCount+=quizAdded
+        }
+        let accuracy = (userTotalPoints/quizTotalMaxPoints)*100;
+        accuracy = Math.ceil(accuracy);
+        console.log("accuracy",accuracy);
 
-       let user = await User.findOneAndUpdate({_id},{
+         user = await User.findOneAndUpdate({_id},{
             $set:{
+                points:userTotalPoints,
+                quizPointsCount:quizTotalMaxPoints,
+                quizCount:quizCount,
+                accuracy:accuracy,
                 recentActivity:recentActivity._id
             }
-        }).populate('recentActivity')
+        },{new:true}).populate('recentActivity')
      
         if(!user){
             return res.send({
@@ -174,7 +197,7 @@ exports.saveResponse=async(req,res)=>{
             message:"Response saved successfully",
             result:{
                 quizResponse:response,
-                // user:user
+                user:user
 
             }
     
@@ -212,7 +235,9 @@ exports.getAchievementsQuiz= async(req,res)=>{
             })
         }
         
-        let responses = await Response.find({medal:medal},{user:userId}).sort({points:-1}).populate('quiz');
+        let responses = await Response.find({medal:medal,user:userId}).sort({points:-1}).populate({
+            path:'quiz',select:'-questions'
+        });
         if(!responses){
             return res.send({
                 statusCode:400,
