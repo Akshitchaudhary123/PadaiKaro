@@ -528,3 +528,58 @@ exports.editProfile = async(req,res)=>{
 
 
 }
+
+exports.updateCategory = async(req,res)=>{
+try {
+    
+        let {category} = req.body;
+        category=category?.trim().toLowerCase();
+        let _id = req.token._id;
+    
+        if(!category){
+            return res.send({
+                statusCode: 400,
+                success: false,
+                message: "category is required",
+                result: {},
+              });
+        }
+    
+        let user = await User.findById(_id);
+        
+        user = await User.findOneAndUpdate({_id},{
+            $set:{
+                category:category
+            }
+        },{new:true})
+    
+        if(!user){
+            return res.send({
+                statusCode: 400,
+                success: false,
+                message: "failed to update user",
+                result: {},
+              });
+        }
+    
+        return res.send({
+            statusCode: 200,
+            success: true,
+            message: "user category updated successfully",
+            result: {},
+          });
+    
+    
+} catch (error) {
+    console.log(`error in user category updation ${error}`);
+    return res.send({
+        statusCode: 500,
+        success: false,
+        message: "Internal Server Error",
+        result: {},
+      });
+    
+}
+
+
+}

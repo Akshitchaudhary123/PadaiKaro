@@ -13,6 +13,7 @@ userRouter.post('/reset-password',upload.none(),userController.resetPassword);
 userRouter.post('/login',upload.none(),userController.login);
 userRouter.get('/user-details',verifyToken,userController.userDetails);
 userRouter.post('/edit-profile',verifyToken,upload.single('file'),userController.editProfile);
+userRouter.post('/update-category',verifyToken,upload.single('file'),userController.updateCategory);
 
 
 module.exports=userRouter;

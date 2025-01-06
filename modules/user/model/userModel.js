@@ -81,6 +81,11 @@ const userSchema = new mongoose.Schema({
    bio:{
     type:String,
     trim:true
+   },
+   category:{
+     type:String,
+     enum:["school","collesge"],
+     default:"school"
    }
 
 },{timestamps:true});
