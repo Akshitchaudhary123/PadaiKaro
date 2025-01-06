@@ -134,9 +134,13 @@ exports.saveResponse=async(req,res)=>{
                 })
             }
         }
-        
+        let subject = quiz.subject;
+        if(!subject){
+          subject = quiz.category;
+        }
+
         let recentActivity = new RecentActivity({
-            title: "Quiz Completed",
+            title: subject,
             subTitle: {
                 "points": points,
                 "medal": medal
