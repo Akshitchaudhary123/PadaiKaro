@@ -157,7 +157,7 @@ exports.getAllNotes = async(req,res)=>{
          result:{
              notes:notes,
              currentPage:page,
-             totalPage:Math.floor(totalNotes/limit)
+             totalPage:Math.ceil(totalNotes/limit)
          }
  
  
