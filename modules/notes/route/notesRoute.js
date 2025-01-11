@@ -10,5 +10,6 @@ notesRouter.post('/upload-notes',verifyToken,upload.single('file'),notesContrrol
 notesRouter.get('/get-all-notes',verifyToken,notesContrroller.getAllNotes);
 notesRouter.get('/get-ncert-books/:class',verifyToken,notesContrroller.getNcertBooks);
 notesRouter.get('/get-ncert-notes/:class',verifyToken,notesContrroller.getNcertNotes);
+notesRouter.get('/get-pyq/:class',verifyToken,notesContrroller.getPYQ);
 
 module.exports=notesRouter;

@@ -236,9 +236,9 @@ exports.getNcertNotes = async(req,res)=>{
         let Class = req.params.class;
         // console.log("class value",Class);
         let skip = (page-1)*limit;
-        let books = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+        let notes = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
         let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
-        if(!books){
+        if(!notes){
          return res.send({
          statusCode:404,
          success:false,
@@ -255,7 +255,7 @@ exports.getNcertNotes = async(req,res)=>{
        message:"Ncert Notes fetched successfully",
        result:{
        
-            books,
+            notes,
             currentPage:page,
             totalPage:Math.ceil(totalRecord/limit),
             totalRecords:totalRecord
@@ -281,13 +281,13 @@ exports.getPYQ = async(req,res)=>{
         let Class = req.params.class;
         // console.log("class value",Class);
         let skip = (page-1)*limit;
-        let books = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
-        let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
-        if(!books){
+        let papers = await Notes.find({type:{$regex:'pyq',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+        let totalRecord = await Notes.find({type:{$regex:'pyq',$options:'i'},class:Class}).countDocuments();
+        if(!papers){
          return res.send({
          statusCode:404,
          success:false,
-         message:"No Notes Found",
+         message:"No Papers Found",
          result:{}
  
          })
@@ -297,10 +297,10 @@ exports.getPYQ = async(req,res)=>{
      return res.send({
        statusCode:200,
        success:true,
-       message:"Ncert Notes fetched successfully",
+       message:"Previous Year Papers fetched successfully",
        result:{
        
-            books,
+            papers,
             currentPage:page,
             totalPage:Math.ceil(totalRecord/limit),
             totalRecords:totalRecord
@@ -309,7 +309,7 @@ exports.getPYQ = async(req,res)=>{
      })
 
    } catch (error) {
-     console.log("error in fetching ncert notes",error);
+     console.log("error in fetching previous year papers",error);
      return res.send({
        statusCode:500,
        success:false,

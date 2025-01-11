@@ -63,7 +63,7 @@ exports.createUser =async (req,res)=>{
     
         password =  brcypt.hashSync(password,10);
         let user = await User.findOne({email:email});
-        if(user.authorised){
+        if(user&&user.authorised){
             return res.send({
                 statusCode:400,
                 success:false,
@@ -71,7 +71,7 @@ exports.createUser =async (req,res)=>{
                 result:{}
             })
         }
-        else if(user.authorised===false){
+        else if(user&&user.authorised===false){
             user = await User.findOneAndUpdate({email:email},{
                 $set:{
                     name:name,
@@ -207,7 +207,7 @@ exports.sendOTP=async(req,res)=>{
         statusCode:500,
         success:false,
         message:"Internal Server Error",
-        result:{}
+        result:{error}
     })
     
    }
