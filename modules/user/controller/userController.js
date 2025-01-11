@@ -61,9 +61,9 @@ exports.createUser =async (req,res)=>{
             })
         }
     
-
+        password =  brcypt.hashSync(password,10);
         let user = await User.findOne({email:email});
-        if(user){
+        if(user.authorised){
             return res.send({
                 statusCode:400,
                 success:false,
@@ -71,10 +71,18 @@ exports.createUser =async (req,res)=>{
                 result:{}
             })
         }
-        password = await brcypt.hashSync(password,10);
-    
-         user = new User({name,email,password});
-        user= await user.save();
+        else if(user.authorised===false){
+            user = await User.findOneAndUpdate({email:email},{
+                $set:{
+                    name:name,
+                    password:password
+                }
+            })
+        }
+        else{
+            user = new User({name,email,password});
+            user= await user.save();
+        }
         if(!user){
             return res.send({
                 statusCode:400,
@@ -83,9 +91,36 @@ exports.createUser =async (req,res)=>{
                 result:{}
             })
         }
-       
-       
     
+        let otp = generateOTP();
+     
+ 
+     
+       // Send email with otp
+       let subject = "Verify Email ";
+       let html = `<body style="background-color: #f7fafc; margin: 0; padding: 0;">
+   <div style="max-width: 24rem; margin: 2rem auto; padding: 1rem; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.5rem; text-align: center;">
+     <h1 style="font-size: 1.5rem; font-weight: bold; color: #2d3748;">Padai Karo</h1>
+     <p style="color: #718096; margin-top: 0.5rem;">We received a request to verify your account with an OTP.</p>
+     <p style="color: #718096; margin-top: 1rem;">Your OTP is:</p>
+     <p style="font-size: 1.25rem; font-weight: bold; color: #3182ce; margin-top: 0.5rem;"> ${otp}</p>
+     <p style="color: #718096; margin-top: 1rem;">If you did not request this, please ignore this email.</p>
+    </div>
+    </body>`;
+ 
+        console.log(`email in verify user ${email}`);
+        sendEmail(email, subject, html);
+        otp = otp.toString();
+        console.log(typeof(otp));
+ 
+ 
+        const otpExpireTime= Date.now()+1000*60  // one minute
+        user = await User.findOneAndUpdate({email:email},{
+         $set:{
+            otp:otp,
+            otpExpireTime:otpExpireTime 
+         }
+        },{new:true})
         return res.send({
             statusCode:201,
             success:true,
@@ -139,8 +174,8 @@ exports.sendOTP=async(req,res)=>{
      <p style="color: #718096; margin-top: 1rem;">Your OTP is:</p>
      <p style="font-size: 1.25rem; font-weight: bold; color: #3182ce; margin-top: 0.5rem;"> ${otp}</p>
      <p style="color: #718096; margin-top: 1rem;">If you did not request this, please ignore this email.</p>
-   </div>
-  </body>`;
+    </div>
+    </body>`;
  
         console.log(`email in verify user ${email}`);
         sendEmail(email, subject, html);

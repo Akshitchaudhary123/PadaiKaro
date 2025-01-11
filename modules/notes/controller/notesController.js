@@ -11,6 +11,12 @@ const Notes = require('./../model/notesModel');
      Type=Type?.toLowerCase().trim();
      Class=Class?.toLowerCase().trim();
      Semester=Semester?.toLowerCase().trim();
+     if(Category=='school'){
+        Semester='';
+     }
+     if(Category=='college'){
+       Class="";
+     }
 
      if(!Title){
         return res.send({
@@ -139,7 +145,7 @@ exports.getAllNotes = async(req,res)=>{
      let totalNotes = await Notes.countDocuments();
      console.log("Total number of documents:", totalNotes);
 
-     let notes = await Notes.find().limit(limit).skip(skip);
+     let notes = await Notes.find().limit(limit).skip(skip).select('-_id -__v ');
      if(!notes){
          return res.send({
              statusCode:404,
@@ -157,7 +163,8 @@ exports.getAllNotes = async(req,res)=>{
          result:{
              notes:notes,
              currentPage:page,
-             totalPage:Math.ceil(totalNotes/limit)
+             totalPage:Math.ceil(totalNotes/limit),
+             totalRecords:totalNotes
          }
  
  
@@ -172,5 +179,142 @@ exports.getAllNotes = async(req,res)=>{
             error:error
         }
     })
+   }
+}
+
+exports.getNcertBooks = async(req,res)=>{
+
+    try {
+
+        let {limit=10,page=1} = req.query;
+        let Class = req.params.class;
+        // console.log("class value",Class);
+        let skip = (page-1)*limit;
+        let books = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+        let totalRecord = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).countDocuments();
+        if(!books){
+         return res.send({
+         statusCode:404,
+         success:false,
+         message:"No Ncert Book Found",
+         result:{}
+ 
+         })
+        
+     }
+ 
+     return res.send({
+       statusCode:200,
+       success:true,
+       message:"Ncert Books fetched successfully",
+       result:{
+       
+            books,
+            currentPage:page,
+            totalPage:Math.ceil(totalRecord/limit),
+            totalRecords:totalRecord
+        
+       }
+     })
+
+   } catch (error) {
+     console.log("error in fetching ncert books",error);
+     return res.send({
+       statusCode:500,
+       success:false,
+       message:"Internal Server Error",
+       result:{error}
+     })
+   }
+}
+
+exports.getNcertNotes = async(req,res)=>{
+
+    try {
+        
+        let {limit=10,page=1} = req.query;
+        let Class = req.params.class;
+        // console.log("class value",Class);
+        let skip = (page-1)*limit;
+        let books = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+        let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
+        if(!books){
+         return res.send({
+         statusCode:404,
+         success:false,
+         message:"No Notes Found",
+         result:{}
+ 
+         })
+        
+     }
+ 
+     return res.send({
+       statusCode:200,
+       success:true,
+       message:"Ncert Notes fetched successfully",
+       result:{
+       
+            books,
+            currentPage:page,
+            totalPage:Math.ceil(totalRecord/limit),
+            totalRecords:totalRecord
+        
+       }
+     })
+
+   } catch (error) {
+     console.log("error in fetching ncert notes",error);
+     return res.send({
+       statusCode:500,
+       success:false,
+       message:"Internal Server Error",
+       result:{error}
+     })
+   }
+}
+exports.getPYQ = async(req,res)=>{
+
+    try {
+        
+        let {limit=10,page=1} = req.query;
+        let Class = req.params.class;
+        // console.log("class value",Class);
+        let skip = (page-1)*limit;
+        let books = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+        let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
+        if(!books){
+         return res.send({
+         statusCode:404,
+         success:false,
+         message:"No Notes Found",
+         result:{}
+ 
+         })
+        
+     }
+ 
+     return res.send({
+       statusCode:200,
+       success:true,
+       message:"Ncert Notes fetched successfully",
+       result:{
+       
+            books,
+            currentPage:page,
+            totalPage:Math.ceil(totalRecord/limit),
+            totalRecords:totalRecord
+        
+       }
+     })
+
+   } catch (error) {
+     console.log("error in fetching ncert notes",error);
+     return res.send({
+       statusCode:500,
+       success:false,
+       message:"Internal Server Error",
+       result:{error}
+     })
    }
 }
