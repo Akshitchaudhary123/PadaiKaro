@@ -1,5 +1,6 @@
 const { uploadOnCloudinary } = require('../../../utils/cloudinary');
 const Notes = require('./../model/notesModel');
+const Category = require('./../../categories/model/categoryModel')
 
 
  exports.uploadNotes=async(req,res)=>{
@@ -186,9 +187,15 @@ exports.getNcertBooks = async(req,res)=>{
 
     try {
 
+        
+
         let {limit=10,page=1} = req.query;
-        let Class = req.params.class;
-        // console.log("class value",Class);
+        let categoryId = req.params.categoryId;
+        // console.log("category Id",categoryId);
+        let category = await Category.findById(categoryId);
+        // console.log("category:",category);
+        let Class = category.class;
+        // console.log("category class:",Class);
         let skip = (page-1)*limit;
         let books = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
         let totalRecord = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).countDocuments();
@@ -206,7 +213,7 @@ exports.getNcertBooks = async(req,res)=>{
      return res.send({
        statusCode:200,
        success:true,
-       message:"Ncert Books fetched successfully",
+       message:"Ncert successfully",
        result:{
        
             books,
@@ -233,8 +240,11 @@ exports.getNcertNotes = async(req,res)=>{
     try {
         
         let {limit=10,page=1} = req.query;
-        let Class = req.params.class;
-        // console.log("class value",Class);
+        let categoryId = req.params.categoryId;
+        // console.log("category Id",categoryId);
+        let category = await Category.findById(categoryId);
+        // console.log("category:",category);
+        let Class = category.class;
         let skip = (page-1)*limit;
         let notes = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
         let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
@@ -278,8 +288,11 @@ exports.getPYQ = async(req,res)=>{
     try {
         
         let {limit=10,page=1} = req.query;
-        let Class = req.params.class;
-        // console.log("class value",Class);
+        let categoryId = req.params.categoryId;
+        // console.log("category Id",categoryId);
+        let category = await Category.findById(categoryId);
+        // console.log("category:",category);
+        let Class = category.class;
         let skip = (page-1)*limit;
         let papers = await Notes.find({type:{$regex:'pyq',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
         let totalRecord = await Notes.find({type:{$regex:'pyq',$options:'i'},class:Class}).countDocuments();

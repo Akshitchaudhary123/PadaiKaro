@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 
 const quizSchema = new mongoose.Schema({
+  name:{
+    type:String
+  },
+  icon:{
+    type:String
+  },
+  color:{
+    type:String
+  },
   category: {
     type: String,
     required: true,

@@ -1,11 +1,17 @@
 
 const Quiz = require('./../model/quizModel');
+const uploadOnCloudinary = require('./../../../utils/cloudinary').uploadOnCloudinary
 
+// #DBEAFE for Jee
+// #DCFCE7 for neet
+// #F3E8FF for 12
+// #FFEDD5 for 10
 
 exports.createQuiz=async(req,res)=>{
 
     try {
-        let {category,quizType,subject,level,points,questions}  = req.body;
+        let {name,category,quizType,subject,level,points,questions}  = req.body;
+        name=name?.trim().toLowerCase();
         category=category?.trim().toLowerCase();
         quizType=quizType?.trim().toLowerCase();
         subject=subject?.trim().toLowerCase();
@@ -40,6 +46,20 @@ exports.createQuiz=async(req,res)=>{
                 })
             }
         }
+        let color="";
+        if(category==='10'){
+          color='FFEDD5';
+        }
+        else if(category==='12'){
+            color = 'F3E8FF';
+        }
+        else if(category==='jee'){
+            color = 'DBEAFE';
+        }
+        else{
+          // for neet
+          color = 'DCFCE7'
+        }
         
         if(questions.length==0){
             return res.send({
@@ -51,6 +71,7 @@ exports.createQuiz=async(req,res)=>{
         }
 
         let query={};
+        if(name)query.name=name;
         if(category)query.category=category;
         if(quizType)query.quizType=quizType;
         if(level)query.level=level;
@@ -65,9 +86,10 @@ exports.createQuiz=async(req,res)=>{
                 result:{}
             })
         }
-
+        questions = JSON.parse(questions);
+        const fileUrl = await uploadOnCloudinary(req.file.path);
         let quiz = new Quiz({
-            category:category,quizType:quizType,level:level,subject:subject,points:points,questions:questions
+           name:name,icon:fileUrl,color:color,category:category,quizType:quizType,level:level,subject:subject,points:points,questions:questions
         })
 
         quiz = await quiz.save();
@@ -263,4 +285,85 @@ exports.getQuiz= async(req,res)=>{
     }
 }
 
+exports.quizCategories = async(req,res)=>{
 
+   try {
+     let tenthQuiz = await Quiz.findOne({category:'10'}).select('color icon name category');
+     let tenthCount = await Quiz.findOne({category:'10'}).countDocuments();
+ 
+     let twelthQuiz = await Quiz.findOne({category:'12'}).select('color icon name category');
+     let twelthCount = await Quiz.findOne({category:'12'}).countDocuments();
+ 
+     let neetQuiz = await Quiz.findOne({category:'neet'}).select('color icon name category');
+     let neetCount = await Quiz.findOne({category:'neet'}).countDocuments();
+ 
+     let jeeQuiz = await Quiz.findOne({category:'jee'}).select('color icon name category');
+     let jeeCount = await Quiz.findOne({category:'jee'}).countDocuments();
+ 
+     res.send({
+         statusCode:200,
+         success:true,
+         message:"quizes fetched successfully",
+         result:{
+             tenthQuiz:{
+                 tenthQuiz,
+                 tenthQuizCount:tenthCount
+             },
+             twelthQuiz:{
+                 twelthQuiz,
+                 twelthQuizCount:twelthCount
+             },
+             neetQuiz:{
+                 neetQuiz,
+                 neetQuizCount:neetCount
+             },
+             jeeQuiz:{
+                 jeeQuiz,
+                 jeeQuizCount:jeeCount
+             }
+         }
+     })
+   } catch (error) {
+    console.log("error in quizCategories",error);
+    res.send({
+        statusCode:500,
+        success:false,
+        message:"Internal Server Error",
+        result:{}
+    })
+
+   }
+
+
+}
+
+exports.quizCategoriesLevels = async(req,res)=>{
+
+    try{
+      let quizId = req.params.quizId;
+      let quiz = await Quiz.findById(quizId);
+      let quizCategory = quiz.category;
+      console.log("quizCategory",quizCategory);
+      let quizLevels = await Quiz.find({'category':quizCategory}).select('color icon name category level points');
+  
+      res.send({
+          statusCode:200,
+          success:true,
+          message:"quiz levels fetched successfully",
+          result:{
+             quizLevels 
+          }
+      })
+    } catch (error) {
+     console.log("error in quizCategoriesLevels",error);
+     res.send({
+         statusCode:500,
+         success:false,
+         message:"Internal Server Error",
+         result:{}
+     })
+ 
+    }
+ 
+ 
+ }

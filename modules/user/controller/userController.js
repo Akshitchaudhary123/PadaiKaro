@@ -7,6 +7,7 @@ const  sendEmail  = require('../../../utils/nodeMailer');
 const generateOTP =require('./../../../utils/generateOTP');
 const { uploadOnCloudinary } = require('../../../utils/cloudinary');
 const { findByIdAndUpdate } = require('../../notes/model/notesModel');
+const { json } = require('express');
 
 
 exports.createUser =async (req,res)=>{
@@ -503,9 +504,9 @@ exports.editProfile = async(req,res)=>{
         console.log(interests);
     
     
-        name=name.trim();
-        education=education.trim();
-        bio=bio.trim();
+        name=name?.trim();
+        education=education?.trim();
+        bio=bio?.trim();
     
         let user = await User.findById(_id);
             if(!user){
@@ -526,10 +527,16 @@ exports.editProfile = async(req,res)=>{
             education=education??user.education;
             bio=bio??user.bio;
             profileUrl=profileUrl??user.profileUrl;
-            if(interests.length==0){
+            console.log("interests before",interests);
+            if(interests){
+            interests = interests.replace(/'/g, '"');
+            interests = JSON.parse(interests);
+            console.log("interests after",interests);
+            }
+            else{
                 interests=user.interests
             }
-    
+            
             user = await User.findOneAndUpdate({_id:_id},{
                 $set:{
                     name:name,
@@ -564,6 +571,8 @@ exports.editProfile = async(req,res)=>{
 
 }
 
+
+// Update User Category
 exports.updateCategory = async(req,res)=>{
 try {
     

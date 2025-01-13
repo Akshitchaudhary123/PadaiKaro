@@ -19,10 +19,11 @@ require('dotenv').config()
  exports.verifyToken =(req,res,next)=>{
     const authHeader = req.headers['authorization']; // Access the header
     let token="";
+    // console.log("authHeader:",authHeader);
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
        token = authHeader.split(' ')[1]; // Extract the token
-      console.log('Token:', token);
+    //   console.log('Token:', token);
     } else {
       console.log('Authorization header not properly formatted or missing');
     }
