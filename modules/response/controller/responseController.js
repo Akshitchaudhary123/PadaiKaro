@@ -108,6 +108,8 @@ exports.saveResponse=async(req,res)=>{
         let response;
         if(existResponse){
             prevPoints = existResponse.points;
+            if(prevPoints>points)points=prevPoints;
+
             response = await Response.findOneAndUpdate({quiz:quizId},{
                 $set:{
                     points:points,timeTaken:timeTaken,questionSolved:questionSolved,

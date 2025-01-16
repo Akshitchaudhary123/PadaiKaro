@@ -1,5 +1,6 @@
 
 const Quiz = require('./../model/quizModel');
+const Response = require('./../../response/model/responseModel');
 const uploadOnCloudinary = require('./../../../utils/cloudinary').uploadOnCloudinary
 
 // #DBEAFE for Jee
@@ -340,11 +341,27 @@ exports.quizCategories = async(req,res)=>{
 exports.quizCategoriesLevels = async(req,res)=>{
 
     try{
+        let userId = req.token._id;
       let quizId = req.params.quizId;
       let quiz = await Quiz.findById(quizId);
       let quizCategory = quiz.category;
       console.log("quizCategory",quizCategory);
       let quizLevels = await Quiz.find({'category':quizCategory}).select('color icon name category level points');
+      console.log("quizLevels",quizLevels);
+
+      let quizLevelIds = [];
+      for(let i=0;i<quizLevels.length;i++){
+        quizLevelIds.push(quizLevels[i]._id);
+      }
+
+      let scores = await Response.find({quiz:{'$in':quizLevelIds},user:userId}).select('quiz points');
+
+      console.log("quizLevelIds",quizLevelIds);
+      quizLevels.forEach(level=>{
+        let score = scores.find(score=>score.quiz.toString()===level._id.toString());
+        level.score =score?score.points:0;
+
+      })
   
       res.send({
           statusCode:200,
