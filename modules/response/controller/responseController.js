@@ -112,7 +112,7 @@ exports.saveResponse=async(req,res)=>{
 
             response = await Response.findOneAndUpdate({quiz:quizId},{
                 $set:{
-                    points:points,timeTaken:timeTaken,questionSolved:questionSolved,
+                    score:points,timeTaken:timeTaken,questionSolved:questionSolved,
                     questionUnsolved:questionUnsolved,medal:medal
                 }
             },{new:true})
@@ -120,7 +120,7 @@ exports.saveResponse=async(req,res)=>{
         }
         else{
              response = new Response({
-                points:points,timeTaken:timeTaken,questionSolved:questionSolved,questionUnsolved:questionUnsolved,
+                score:points,timeTaken:timeTaken,questionSolved:questionSolved,questionUnsolved:questionUnsolved,
                 user:_id,quiz:quizId,medal:medal
             });
     

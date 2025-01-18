@@ -1,6 +1,7 @@
 
 const Quiz = require('./../model/quizModel');
 const Response = require('./../../response/model/responseModel');
+const Category = require('./../../categories/model/categoryModel');
 const uploadOnCloudinary = require('./../../../utils/cloudinary').uploadOnCloudinary
 
 // #DBEAFE for Jee
@@ -277,39 +278,43 @@ exports.getQuiz= async(req,res)=>{
 exports.quizCategories = async(req,res)=>{
 
    try {
-     let tenthQuiz = await Quiz.findOne({category:'10'}).select('color icon name category');
-     let tenthCount = await Quiz.findOne({category:'10'}).countDocuments();
- 
-     let twelthQuiz = await Quiz.findOne({category:'12'}).select('color icon name category');
-     let twelthCount = await Quiz.findOne({category:'12'}).countDocuments();
- 
-     let neetQuiz = await Quiz.findOne({category:'neet'}).select('color icon name category');
-     let neetCount = await Quiz.findOne({category:'neet'}).countDocuments();
- 
-     let jeeQuiz = await Quiz.findOne({category:'jee'}).select('color icon name category');
-     let jeeCount = await Quiz.findOne({category:'jee'}).countDocuments();
- 
+     
+    const data = await Category.aggregate([
+        {
+          $lookup: {
+            from: "quizzes", // The name of the Quiz collection
+            localField: "_id", // Field from the Category collection
+            foreignField: "category", // Field from the Quiz collection
+            as: "quizzes" // The name of the field to store matched quizzes
+          }
+        },
+        {
+          $addFields: {
+            quizCount: { $size: "$quizzes" } // Add a field `quizCount` with the number of quizzes
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            name:1,
+            class:1, // Include only `_id`
+            quizCount: 1, // Include only `quizCount`
+            color: 1,
+            icon: 1,
+
+          }
+        }
+      ]);
+      
+      console.log(data);
+            
+
      res.send({
          statusCode:200,
          success:true,
          message:"quizes fetched successfully",
          result:{
-             tenthQuiz:{
-                 tenthQuiz,
-                 tenthQuizCount:tenthCount
-             },
-             twelthQuiz:{
-                 twelthQuiz,
-                 twelthQuizCount:twelthCount
-             },
-             neetQuiz:{
-                 neetQuiz,
-                 neetQuizCount:neetCount
-             },
-             jeeQuiz:{
-                 jeeQuiz,
-                 jeeQuizCount:jeeCount
-             }
+             data:data
          }
      })
    } catch (error) {
@@ -330,11 +335,13 @@ exports.quizCategoriesLevels = async(req,res)=>{
 
     try{
         let userId = req.token._id;
-      let quizId = req.params.quizId;
-      let quiz = await Quiz.findById(quizId);
-      let quizCategory = quiz.category;
-      console.log("quizCategory",quizCategory);
-      let quizLevels = await Quiz.find({'category':quizCategory}).select('color icon name category level points');
+        let categoryId = req.params.categoryId;
+
+
+      let quiz = await Quiz.findById(categoryId);
+    //   let quizCategory = quiz.category;
+    //   console.log("quizCategory",quizCategory);
+      let quizLevels = await Quiz.find({'category':categoryId}).select('_id name level points');
       console.log("quizLevels",quizLevels);
 
       let quizLevelIds = [];
@@ -342,12 +349,12 @@ exports.quizCategoriesLevels = async(req,res)=>{
         quizLevelIds.push(quizLevels[i]._id);
       }
 
-      let scores = await Response.find({quiz:{'$in':quizLevelIds},user:userId}).select('quiz points');
+      let scores = await Response.find({quiz:{'$in':quizLevelIds},user:userId}).select('quiz score');
 
       console.log("quizLevelIds",quizLevelIds);
       quizLevels.forEach(level=>{
         let score = scores.find(score=>score.quiz.toString()===level._id.toString());
-        level.score =score?score.points:0;
+        level.score =score?score.score:0;
 
       })
   
@@ -365,7 +372,7 @@ exports.quizCategoriesLevels = async(req,res)=>{
          statusCode:500,
          success:false,
          message:"Internal Server Error",
-         result:{}
+         result:{error:error.message}
      })
  
     }
