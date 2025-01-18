@@ -8,14 +8,17 @@ const uploadOnCloudinary = require('./../../../utils/cloudinary').uploadOnCloudi
 // #F3E8FF for 12
 // #FFEDD5 for 10
 
+//10 
+//6782c4f9fe25e1a7a87cf6d8
+
 exports.createQuiz=async(req,res)=>{
 
     try {
         let {name,category,quizType,subject,level,points,questions}  = req.body;
-        name=name?.trim().toLowerCase();
-        category=category?.trim().toLowerCase();
-        quizType=quizType?.trim().toLowerCase();
-        subject=subject?.trim().toLowerCase();
+        name=name?.trim();
+        category=category?.trim();
+        quizType=quizType?.trim();
+        subject=subject?.trim();
         
         // console.log("subject: ",subject);
 
@@ -47,20 +50,6 @@ exports.createQuiz=async(req,res)=>{
                 })
             }
         }
-        let color="";
-        if(category==='10'){
-          color='FFEDD5';
-        }
-        else if(category==='12'){
-            color = 'F3E8FF';
-        }
-        else if(category==='jee'){
-            color = 'DBEAFE';
-        }
-        else{
-          // for neet
-          color = 'DCFCE7'
-        }
         
         if(questions.length==0){
             return res.send({
@@ -88,9 +77,8 @@ exports.createQuiz=async(req,res)=>{
             })
         }
         questions = JSON.parse(questions);
-        const fileUrl = await uploadOnCloudinary(req.file.path);
         let quiz = new Quiz({
-           name:name,icon:fileUrl,color:color,category:category,quizType:quizType,level:level,subject:subject,points:points,questions:questions
+           name:name,category:category,quizType:quizType,level:level,subject:subject,points:points,questions:questions
         })
 
         quiz = await quiz.save();
@@ -384,3 +372,120 @@ exports.quizCategoriesLevels = async(req,res)=>{
  
  
  }
+
+ exports.createContest=async(req,res)=>{
+
+    try {
+        let {name,category,subject,points,questions}  = req.body;
+        name=name?.trim().toLowerCase();
+        category=category?.trim().toLowerCase();
+        quizType=quizType?.trim().toLowerCase();
+        subject=subject?.trim().toLowerCase();
+        
+        // console.log("subject: ",subject);
+
+        if(!category){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Category is required",
+                result:{}
+            })
+        }
+        if(!quizType){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"quizType is required",
+                result:{}
+            })
+        }
+        if(category==='10'||category==='12'){
+
+            if(!subject){
+                return res.send({
+                    statusCode:404,
+                    success:false,
+                    message:"subject is required",
+                    result:{}
+                })
+            }
+        }
+        let color="";
+        if(category==='10'){
+          color='FFEDD5';
+        }
+        else if(category==='12'){
+            color = 'F3E8FF';
+        }
+        else if(category==='jee'){
+            color = 'DBEAFE';
+        }
+        else{
+          // for neet
+          color = 'DCFCE7'
+        }
+        
+        if(questions.length==0){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Questions are required",
+                result:{}
+            })
+        }
+
+        let query={};
+        if(name)query.name=name;
+        if(category)query.category=category;
+        if(quizType)query.quizType=quizType;
+        if(level)query.level=level;
+        if(subject)query.subject=subject;
+
+        let isQuizExist = await Quiz.findOne(query);
+        if(isQuizExist){
+            return res.send({
+                statusCode:400,
+                success:false,
+                message:"Quiz Already exist",
+                result:{}
+            })
+        }
+        questions = JSON.parse(questions);
+        const fileUrl = await uploadOnCloudinary(req.file.path);
+        let quiz = new Quiz({
+           name:name,icon:fileUrl,color:color,category:category,quizType:quizType,level:level,subject:subject,points:points,questions:questions
+        })
+
+        quiz = await quiz.save();
+
+        if(!quiz){
+            return res.send({
+                statusCode:400,
+                success:false,
+                message:"Failed to create Quiz",
+                result:{}
+            })
+        }
+
+        return res.send({
+            statusCode:200,
+            success:true,
+            message:"Quiz created successfully",
+            result:{
+                quiz:quiz
+                // questions:questions
+            }
+        })
+    
+    } catch (error) {
+        console.log(`error in creating quiz ${error}`);
+        return res.send({
+            statusCode:500,
+            success:false,
+            message:"Internal Server Error",
+            result:{error:error}
+        })
+        
+    }
+}

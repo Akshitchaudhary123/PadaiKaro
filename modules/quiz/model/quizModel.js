@@ -4,15 +4,9 @@ const quizSchema = new mongoose.Schema({
   name:{
     type:String
   },
-  icon:{
-    type:String
-  },
-  color:{
-    type:String
-  },
   category: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
   },
   quizType: {
     type: String,
@@ -25,10 +19,18 @@ const quizSchema = new mongoose.Schema({
     return (this.category==='10'|| this.category==='12');
    }
   },
+  startTime:{
+   type:Date,
+   required:function(){
+    return (this.quizType==='contest')
+   }
+  },
   level: {
     type: Number,
     default:1,
-    required: true,
+    required:function(){
+      return (this.quizType==='practice')
+     },
   },
   
   points: {

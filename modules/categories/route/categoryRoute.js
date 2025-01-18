@@ -4,7 +4,7 @@ const upload = require('./../../../middlewares/multer')
 
 const categoryRouter = express.Router();
 
-categoryRouter.post('/create-category',upload.none(),categoryController.createCategory);
+categoryRouter.post('/create-category',upload.single('file'),categoryController.createCategory);
 
 categoryRouter.get('/get-category',categoryController.getCategory);
 

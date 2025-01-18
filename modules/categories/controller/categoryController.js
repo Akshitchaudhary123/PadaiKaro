@@ -1,15 +1,19 @@
 const Category = require('./../model/categoryModel');
+const {uploadOnCloudinary} = require('./../../../utils/cloudinary');
 
 exports.createCategory = async(req,res)=>{
 
     try {
-        let{Name,Class} = req.body;
+        let{Name,Class,Color} = req.body;
+        Name=Name?.trim();
+        Class=Class?.trim();
+        Color=Color?.trim();
 
         // Name = req.body.Name;
         console.log("Name",Name);
         console.log("Class",Class);
     
-        if(!Name || !Class ){
+        if(!Name || !Class || !Color ){
             return res.send({
                 statusCode:400,
                 success:false,
@@ -26,9 +30,11 @@ exports.createCategory = async(req,res)=>{
                 result:{}
             }) 
         }
+        const fileUrl = await uploadOnCloudinary(req.file.path);
         let category = new Category({
-            name:Name,class:Class
+            name:Name,class:Class,icon:fileUrl,color:Color
         });
+
         category = await category.save();
         if(!category){
             return res.send({
