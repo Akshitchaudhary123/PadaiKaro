@@ -6,12 +6,12 @@ const Category = require('./../../categories/model/categoryModel')
  exports.uploadNotes=async(req,res)=>{
 
      let {Title,Category,Class,Subject,Semester,Type} =req.body;
-     Title=Title?.toLowerCase().trim();
-     Category=Category?.toLowerCase().trim();
-     Subject=Subject?.toLowerCase().trim();
-     Type=Type?.toLowerCase().trim();
-     Class=Class?.toLowerCase().trim();
-     Semester=Semester?.toLowerCase().trim();
+     Title=Title?.trim();
+     Category=Category?.trim();
+     Subject=Subject?.trim();
+     Type=Type?.trim();
+     Class=Class?.trim();
+     Semester=Semester?.trim();
      if(Category=='school'){
         Semester='';
      }
@@ -162,7 +162,7 @@ exports.getAllNotes = async(req,res)=>{
          success:true,
          message:"Notes fetched successfully",
          result:{
-             notes:notes,
+             notes:Number.parseInt(page),
              currentPage:page,
              totalPage:Math.ceil(totalNotes/limit),
              totalRecords:totalNotes
@@ -188,11 +188,19 @@ exports.getNcertBooks = async(req,res)=>{
     try {
 
         
-
         let {limit=10,page=1} = req.query;
         let categoryId = req.params.categoryId;
+        
         // console.log("category Id",categoryId);
         let category = await Category.findById(categoryId);
+        if(!category){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Category not found",
+                result:{}
+            })
+        }
         // console.log("category:",category);
         let Class = category.class;
         // console.log("category class:",Class);
@@ -217,7 +225,7 @@ exports.getNcertBooks = async(req,res)=>{
        result:{
        
             books,
-            currentPage:page,
+            currentPage:Number.parseInt(page),
             totalPage:Math.ceil(totalRecord/limit),
             totalRecords:totalRecord
         
@@ -243,8 +251,17 @@ exports.getNcertNotes = async(req,res)=>{
         let categoryId = req.params.categoryId;
         // console.log("category Id",categoryId);
         let category = await Category.findById(categoryId);
+        if(!category){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Category not found",
+                result:{}
+            })
+        }
         // console.log("category:",category);
         let Class = category.class;
+        console.log("class :",Class);
         let skip = (page-1)*limit;
         let notes = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
         let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
@@ -266,7 +283,7 @@ exports.getNcertNotes = async(req,res)=>{
        result:{
        
             notes,
-            currentPage:page,
+            currentPage:Number.parseInt(page),
             totalPage:Math.ceil(totalRecord/limit),
             totalRecords:totalRecord
         
@@ -279,11 +296,12 @@ exports.getNcertNotes = async(req,res)=>{
        statusCode:500,
        success:false,
        message:"Internal Server Error",
-       result:{error}
+       result:{error:error.message}
      })
    }
 }
-exports.getPYQ = async(req,res)=>{
+
+ exports.getPYQ = async(req,res)=>{
 
     try {
         
@@ -291,6 +309,14 @@ exports.getPYQ = async(req,res)=>{
         let categoryId = req.params.categoryId;
         // console.log("category Id",categoryId);
         let category = await Category.findById(categoryId);
+        if(!category){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"Category not found",
+                result:{}
+            })
+        }
         // console.log("category:",category);
         let Class = category.class;
         let skip = (page-1)*limit;
@@ -314,7 +340,7 @@ exports.getPYQ = async(req,res)=>{
        result:{
        
             papers,
-            currentPage:page,
+            currentPage:Number.parseInt(page),
             totalPage:Math.ceil(totalRecord/limit),
             totalRecords:totalRecord
         
