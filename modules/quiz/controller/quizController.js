@@ -296,7 +296,8 @@ exports.quizCategories = async(req,res)=>{
         {
           $project: {
             _id: 1,
-            name:1,
+            title:1,
+            subTitle:1,
             class:1, // Include only `_id`
             quizCount: 1, // Include only `quizCount`
             color: 1,
