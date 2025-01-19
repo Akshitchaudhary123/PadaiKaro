@@ -201,13 +201,46 @@ exports.getNcertBooks = async(req,res)=>{
                 result:{}
             })
         }
-        // console.log("category:",category);
         let Class = category.class;
-        // console.log("category class:",Class);
-        let skip = (page-1)*limit;
-        let books = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
-        let totalRecord = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).countDocuments();
-        if(!books){
+
+        const data = await Notes.aggregate([
+            {
+              $match: {
+                type: { $regex: 'ncert', $options: 'i' }, // Matches "ncert" case-insensitively
+                class: Class, // Filters by class
+              },
+            },
+            {
+              $group: {
+                _id: '$subject', // Group by the "subject" field
+                books: {
+                  $push: {
+                    title: '$title', // Include the title in the grouped result
+                    fileUrl: '$fileUrl', // Include the file URL
+                    chapter: '$chapter', // Include the chapter
+                    class: '$class', // Include the class
+                  },
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0, // Exclude the default _id field from the output
+                subject: '$_id', // Rename _id to "subject"
+                books: 1, // Include the "books" array
+              },
+            },
+          ]);
+          
+        //   console.log(data);
+          
+    //    console.log(books);
+
+        // // console.log("category class:",Class);
+        // let skip = (page-1)*limit;
+        // let books = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+        // let totalRecord = await Notes.find({type:{$regex:'ncert',$options:'i'},class:Class}).countDocuments();
+        if(!data){
          return res.send({
          statusCode:404,
          success:false,
@@ -221,13 +254,13 @@ exports.getNcertBooks = async(req,res)=>{
      return res.send({
        statusCode:200,
        success:true,
-       message:"Ncert successfully",
+       message:"Books fetched successfully",
        result:{
        
-            books,
-            currentPage:Number.parseInt(page),
-            totalPage:Math.ceil(totalRecord/limit),
-            totalRecords:totalRecord
+            data,
+            // currentPage:Number.parseInt(page),
+            // totalPage:Math.ceil(totalRecord/limit),
+            // totalRecords:totalRecord
         
        }
      })

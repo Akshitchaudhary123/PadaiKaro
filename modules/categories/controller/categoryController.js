@@ -4,17 +4,18 @@ const {uploadOnCloudinary} = require('./../../../utils/cloudinary');
 exports.createCategory = async(req,res)=>{
 
     try {
-        let{title,subTitle,Class,color} = req.body;
+        let{name,title,subTitle,Class,color} = req.body;
+        name=name?.trim();
         title=title?.trim();
         subTitle=subTitle?.trim();
         Class=Class?.trim();
         color=color?.trim();
 
         // Name = req.body.Name;
-        console.log("Name",title);
-        console.log("Class",subTitle);
+        console.log("Name",name);
+        // console.log("Class",class);
     
-        if(!title || !Class || !color||!subTitle ){
+        if(!name|| !title || !Class || !color||!subTitle ){
             return res.send({
                 statusCode:400,
                 success:false,
@@ -22,7 +23,7 @@ exports.createCategory = async(req,res)=>{
                 result:{}
             })
         }
-        let isCategoryExist = await Category.findOne({title:title,class:Class});
+        let isCategoryExist = await Category.findOne({name:name,class:Class});
         if(isCategoryExist){
             return res.send({
                 statusCode:400,
@@ -33,7 +34,7 @@ exports.createCategory = async(req,res)=>{
         }
         const fileUrl = await uploadOnCloudinary(req.file.path);
         let category = new Category({
-            title:title,class:Class,icon:fileUrl,color:color,subTitle:subTitle
+           name:name, title:title,class:Class,icon:fileUrl,color:color,subTitle:subTitle
         });
 
         category = await category.save();
