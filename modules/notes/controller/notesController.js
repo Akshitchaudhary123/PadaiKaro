@@ -6,6 +6,7 @@ const Category = require('./../../categories/model/categoryModel')
  exports.uploadNotes=async(req,res)=>{
 
      let {Title,Category,Class,Subject,Semester,Type} =req.body;
+    
      Title=Title?.trim();
      Category=Category?.trim();
      Subject=Subject?.trim();
@@ -79,7 +80,6 @@ const Category = require('./../../categories/model/categoryModel')
 
     let notes = await Notes.findOne(query);
 
-    
      if(notes){
         return res.send({
             statusCode:400,
@@ -93,6 +93,10 @@ const Category = require('./../../categories/model/categoryModel')
     
     try {
         const fileUrl = await uploadOnCloudinary(req.file.path);
+       
+        fileSize = req.file.size;
+        fileSize = (fileSize/1048576).toFixed(2);
+        console.log("File Size",fileSize);
     
         let notes = new Notes({
             title:Title,
@@ -101,7 +105,8 @@ const Category = require('./../../categories/model/categoryModel')
             subject:Subject,
             semester:Semester,
             type:Type,
-            fileUrl:fileUrl
+            fileUrl:fileUrl,
+            fileSize:fileSize
     
         })
         notes = await notes.save();
@@ -204,35 +209,59 @@ exports.getNcertBooks = async(req,res)=>{
         let Class = category.class;
 
         const data = await Notes.aggregate([
-            {
-              $match: {
-                type: { $regex: 'ncert', $options: 'i' }, // Matches "ncert" case-insensitively
-                class: Class, // Filters by class
-              },
+          {
+            $match: {
+              type: { $regex: 'ncert', $options: 'i' },
+              class: Class, 
             },
-            {
-              $group: {
-                _id: '$subject', // Group by the "subject" field
-                books: {
-                  $push: {
-                    title: '$title', // Include the title in the grouped result
-                    fileUrl: '$fileUrl', // Include the file URL
-                    chapter: '$chapter', // Include the chapter
-                    class: '$class', // Include the class
-                  },
+          },
+          {
+            $addFields: {
+              convertedSubject: { $toObjectId: '$subject' }, 
+            },
+          },
+          {
+            $lookup: {
+              from: 'subjects',
+              localField: 'convertedSubject',
+              foreignField: '_id',
+              as: 'subjectDetails', 
+            },
+          },
+          {
+            $group: {
+              _id: '$subject', // Group by the 'subject' field
+              subjectName: { $first: { $arrayElemAt: ['$subjectDetails.name', 0] } }, // Extract the subject name
+              icon: { $first: { $arrayElemAt: ['$subjectDetails.icon', 0] } }, // Extract the icon
+              color: { $first: { $arrayElemAt: ['$subjectDetails.color', 0] } }, // Extract the color
+              books: {
+                $push: {
+                  _id: '$_id', // Include the note's _id
+                  title: '$title', // Include the title of the note
+                  fileUrl: '$fileUrl',
+                  fileSize: '$fileSize' // Include the file URL
                 },
               },
             },
-            {
-              $project: {
-                _id: 0, // Exclude the default _id field from the output
-                subject: '$_id', // Rename _id to "subject"
-                books: 1, // Include the "books" array
-              },
+          },
+          {
+            $project: {
+              _id: 0, // Exclude the grouped _id (subject)
+              subjectName: 1, // Include the subject name
+              icon: 1, // Include the icon
+              color: 1, // Include the color
+              books: 1, // Include the grouped notes array
             },
-          ]);
-          
-        //   console.log(data);
+          },
+        ]);
+        
+        console.log(JSON.stringify(data, null, 2));
+        
+        
+              
+        
+        // console.log(JSON.stringify(data, null, 2));
+        
           
     //    console.log(books);
 

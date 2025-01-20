@@ -28,8 +28,8 @@ const notesSchema = new mongoose.Schema({
         },
     },
     subject: {
-        type: String,
-        required: true, 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Subject", 
     },
     chapter:{
         type:Number,
@@ -44,6 +44,11 @@ const notesSchema = new mongoose.Schema({
         type: String,
         required: true, 
     },
+    fileSize:{
+        type:Number,
+        required:true,
+        default:0
+    }
     
 },{timestamps:true});
 
