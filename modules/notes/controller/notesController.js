@@ -5,7 +5,7 @@ const Category = require('./../../categories/model/categoryModel')
 
  exports.uploadNotes=async(req,res)=>{
 
-     let {Title,Category,Class,Subject,Semester,Type} =req.body;
+     let {Title,Category,Class,Subject,Semester,Type,chapter,chapterName} =req.body;
     
      Title=Title?.trim();
      Category=Category?.trim();
@@ -13,6 +13,8 @@ const Category = require('./../../categories/model/categoryModel')
      Type=Type?.trim();
      Class=Class?.trim();
      Semester=Semester?.trim();
+     chapter=chapter?.trim();
+     chapterName=chapterName?.trim();
      if(Category=='school'){
         Semester='';
      }
@@ -68,7 +70,7 @@ const Category = require('./../../categories/model/categoryModel')
             result:{}
         })
      }
-
+     
      let query = {};
 
     if (Title) query.title = Title;
@@ -77,6 +79,9 @@ const Category = require('./../../categories/model/categoryModel')
     if (Type) query.type = Type;
     if (Semester) query.semester = Semester;
     if (Class) query.class = Class;
+    if (chapter) query.chapter = chapter;
+    if (chapterName) query.chapterName = chapterName;
+
 
     let notes = await Notes.findOne(query);
 
@@ -105,6 +110,8 @@ const Category = require('./../../categories/model/categoryModel')
             subject:Subject,
             semester:Semester,
             type:Type,
+            chapter,
+            chapterName,
             fileUrl:fileUrl,
             fileSize:fileSize
     
@@ -324,19 +331,70 @@ exports.getNcertNotes = async(req,res)=>{
         // console.log("category:",category);
         let Class = category.class;
         console.log("class :",Class);
-        let skip = (page-1)*limit;
-        let notes = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
-        let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
-        if(!notes){
-         return res.send({
-         statusCode:404,
-         success:false,
-         message:"No Notes Found",
-         result:{}
+    //     let skip = (page-1)*limit;
+    //     let notes = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
+    //     let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
+    //     if(!notes){
+    //      return res.send({
+    //      statusCode:404,
+    //      success:false,
+    //      message:"No Notes Found",
+    //      result:{}
  
-         })
+    //      })
         
-     }
+    //  }
+
+    const data = await Notes.aggregate([
+      {
+        $match: {
+          type: { $regex: 'notes', $options: 'i' },
+          class: Class, 
+        },
+      },
+      {
+        $addFields: {
+          convertedSubject: { $toObjectId: '$subject' }, 
+        },
+      },
+      {
+        $lookup: {
+          from: 'subjects',
+          localField: 'convertedSubject',
+          foreignField: '_id',
+          as: 'subjectDetails', 
+        },
+      },
+      {
+        $group: {
+          _id: '$subject', // Group by the 'subject' field
+          subjectName: { $first: { $arrayElemAt: ['$subjectDetails.name', 0] } }, // Extract the subject name
+          icon: { $first: { $arrayElemAt: ['$subjectDetails.icon', 0] } }, // Extract the icon
+          color: { $first: { $arrayElemAt: ['$subjectDetails.color', 0] } }, // Extract the color
+          notes: {
+            $push: {
+              _id: '$_id', // Include the note's _id
+              title: '$title',
+              chapter:'$chapter',
+              chapterName:'$chapterName', // Include the title of the note
+              fileUrl: '$fileUrl',
+              fileSize: '$fileSize' // Include the file URL
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Exclude the grouped _id (subject)
+          subjectName: 1, // Include the subject name
+          icon: 1, // Include the icon
+          color: 1, // Include the color
+          books: 1, // Include the grouped notes array
+        },
+      },
+    ]);
+    
+    console.log(JSON.stringify(data, null, 2));
  
      return res.send({
        statusCode:200,
@@ -344,10 +402,11 @@ exports.getNcertNotes = async(req,res)=>{
        message:"Ncert Notes fetched successfully",
        result:{
        
-            notes,
-            currentPage:Number.parseInt(page),
-            totalPage:Math.ceil(totalRecord/limit),
-            totalRecords:totalRecord
+            // notes,
+            data
+            // currentPage:Number.parseInt(page),
+            // totalPage:Math.ceil(totalRecord/limit),
+            // totalRecords:totalRecord
         
        }
      })

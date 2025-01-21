@@ -32,9 +32,17 @@ const notesSchema = new mongoose.Schema({
         ref: "Subject", 
     },
     chapter:{
-        type:Number,
-        // required:true,
-        // default:1
+        type:String,
+        required:function(){
+            return this.type==='notes'
+        },
+        default:""
+    },
+    chapterName:{
+        type:String,
+        required:function(){
+            return this.chapter!==0
+        }
     },
     type: {
         type: String,
