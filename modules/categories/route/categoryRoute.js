@@ -8,4 +8,6 @@ categoryRouter.post('/create-category',upload.single('file'),categoryController.
 
 categoryRouter.get('/get-category',categoryController.getCategory);
 
+categoryRouter.get('/get-category-subjects/:categoryId',categoryController.getSubjects);
+
 module.exports = categoryRouter;

@@ -23,7 +23,13 @@ const categorySchema = new mongoose.Schema({
     },
     color:{
         type:String
-    }
+    },
+    subjects:[
+        {
+           type:mongoose.Schema.Types.ObjectId,
+           ref:"Subject"
+        }
+    ]
     
 
     

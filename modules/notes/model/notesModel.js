@@ -41,8 +41,22 @@ const notesSchema = new mongoose.Schema({
     chapterName:{
         type:String,
         required:function(){
-            return this.chapter!==0
+            return this.chapter!==""
         }
+    },
+    set:{
+        type:String,
+        required:function(){
+            return this.type==="previouspaper"
+        },
+        default:""
+    },
+    year:{
+       type:String,
+       required:function(){
+          return this.type==='previouspaper'
+       },
+       default:""
     },
     type: {
         type: String,

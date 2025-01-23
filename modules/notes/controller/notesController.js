@@ -1,11 +1,12 @@
 const { uploadOnCloudinary } = require('../../../utils/cloudinary');
 const Notes = require('./../model/notesModel');
-const Category = require('./../../categories/model/categoryModel')
+const Category = require('./../../categories/model/categoryModel');
+const { default: mongoose } = require('mongoose');
 
 
  exports.uploadNotes=async(req,res)=>{
 
-     let {Title,Category,Class,Subject,Semester,Type,chapter,chapterName} =req.body;
+     let {Title,Category,Class,Subject,Semester,Type,chapter,chapterName,year,set} =req.body;
     
      Title=Title?.trim();
      Category=Category?.trim();
@@ -15,6 +16,8 @@ const Category = require('./../../categories/model/categoryModel')
      Semester=Semester?.trim();
      chapter=chapter?.trim();
      chapterName=chapterName?.trim();
+     set=set?.trim();
+     year=year?.trim();
      if(Category=='school'){
         Semester='';
      }
@@ -70,6 +73,7 @@ const Category = require('./../../categories/model/categoryModel')
             result:{}
         })
      }
+    
      
      let query = {};
 
@@ -81,7 +85,8 @@ const Category = require('./../../categories/model/categoryModel')
     if (Class) query.class = Class;
     if (chapter) query.chapter = chapter;
     if (chapterName) query.chapterName = chapterName;
-
+    if (set) query.set = set;
+    
 
     let notes = await Notes.findOne(query);
 
@@ -97,7 +102,7 @@ const Category = require('./../../categories/model/categoryModel')
      }
     
     try {
-        const fileUrl = await uploadOnCloudinary(req.file.path);
+        const fileUrl = await uploadOnCloudinary(req?.file?.path);
        
         fileSize = req.file.size;
         fileSize = (fileSize/1048576).toFixed(2);
@@ -108,10 +113,12 @@ const Category = require('./../../categories/model/categoryModel')
             category:Category,
             class:Class,
             subject:Subject,
-            semester:Semester,
+            semester:Semester||"",
             type:Type,
-            chapter,
-            chapterName,
+            year:year||"",
+            set:set||"",
+            chapter:chapter||"",
+            chapterName:chapterName||"",
             fileUrl:fileUrl,
             fileSize:fileSize
     
@@ -123,8 +130,7 @@ const Category = require('./../../categories/model/categoryModel')
                 success:false,
                 message:"failed to create notes",
                 result:{}
-    
-    
+
             })
         }
        
@@ -426,10 +432,31 @@ exports.getNcertNotes = async(req,res)=>{
 
     try {
         
-        let {limit=10,page=1} = req.query;
-        let categoryId = req.params.categoryId;
-        // console.log("category Id",categoryId);
+       
+        let {categoryId,subjectId} = req.body;
+        categoryId=categoryId?.trim();
+        subjectId=subjectId?.trim();
+        console.log("category Id",categoryId);
+        console.log("subject Id",subjectId);
+        if(!categoryId){
+          return res.send({
+              statusCode:400,
+              success:false,
+              message:"Category Id is required",
+              result:{}
+          })
+      }
+
+        if(!subjectId){
+          return res.send({
+              statusCode:400,
+              success:false,
+              message:"subject Id is required",
+              result:{}
+          })
+      }
         let category = await Category.findById(categoryId);
+
         if(!category){
             return res.send({
                 statusCode:404,
@@ -440,10 +467,41 @@ exports.getNcertNotes = async(req,res)=>{
         }
         // console.log("category:",category);
         let Class = category.class;
-        let skip = (page-1)*limit;
-        let papers = await Notes.find({type:{$regex:'pyq',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
-        let totalRecord = await Notes.find({type:{$regex:'pyq',$options:'i'},class:Class}).countDocuments();
-        if(!papers){
+
+        let papersByYear = await Notes.aggregate([
+          {
+            $match: {
+              type: { $regex: 'previouspaper', $options: 'i' },
+              class: Class, 
+              subject: new mongoose.Types.ObjectId(subjectId)
+            }
+          },
+          {
+            $sort:{
+              set:1
+            }
+          },
+          {
+            $group:{
+              _id:'$year',
+             papers:{
+              $push:{
+                paperUrl:'$fileUrl',
+                paperSize:'$fileSize',
+                set:'$set'
+              }
+             } 
+            }
+          }
+          
+          
+        ]);
+        
+       
+        console.log(papersByYear);
+        
+        
+        if(!papersByYear){
          return res.send({
          statusCode:404,
          success:false,
@@ -460,10 +518,8 @@ exports.getNcertNotes = async(req,res)=>{
        message:"Previous Year Papers fetched successfully",
        result:{
        
-            papers,
-            currentPage:Number.parseInt(page),
-            totalPage:Math.ceil(totalRecord/limit),
-            totalRecords:totalRecord
+        papersByYear,
+           
         
        }
      })
@@ -474,7 +530,7 @@ exports.getNcertNotes = async(req,res)=>{
        statusCode:500,
        success:false,
        message:"Internal Server Error",
-       result:{error}
+       result:{error:error.message}
      })
    }
 }

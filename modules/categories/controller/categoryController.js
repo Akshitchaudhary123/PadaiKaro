@@ -4,7 +4,7 @@ const {uploadOnCloudinary} = require('./../../../utils/cloudinary');
 exports.createCategory = async(req,res)=>{
 
     try {
-        let{name,title,subTitle,Class,color} = req.body;
+        let{name,title,subTitle,Class,color,subjects} = req.body;
         name=name?.trim();
         title=title?.trim();
         subTitle=subTitle?.trim();
@@ -33,8 +33,11 @@ exports.createCategory = async(req,res)=>{
             }) 
         }
         const fileUrl = await uploadOnCloudinary(req.file.path);
+
+        subjects = JSON.parse(subjects);
+        console.log("subjects",subjects)
         let category = new Category({
-           name:name, title:title,class:Class,icon:fileUrl,color:color,subTitle:subTitle
+           name:name, title:title,class:Class,icon:fileUrl,color:color,subTitle:subTitle,subjects
         });
 
         category = await category.save();
@@ -92,4 +95,46 @@ exports.getCategory = async(req,res)=>{
             result:{}
     })
     }
+}
+
+exports.getSubjects = async(req,res)=>{
+
+    try {
+        let {categoryId} = req.params;
+        categoryId = categoryId?.trim();
+        if(!categoryId){
+            return res.send({
+                statusCode:400,
+                success:false,
+                message:"category Id is required",
+                result:{}
+            })
+        }
+
+        let subjects = await Category.findById(categoryId).populate({path:'subjects',select:'name'}).select('_id');
+        if(!subjects){
+            return res.send({
+                statusCode:404,
+                success:false,
+                message:"No Subject Found",
+                result:{}
+            })
+        }
+
+        return res.send({
+                statusCode:200,
+                success:true,
+                message:"Subjects fetched successfully",
+                result:{data:subjects.subjects}
+        })
+
+    } catch (error) {
+        return res.send({
+            statusCode:500,
+            success:false,
+            message:"Internal Server Error",
+            result:{error:error.message}
+    })
+    }
+
 }

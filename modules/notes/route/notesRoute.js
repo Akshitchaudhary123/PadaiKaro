@@ -10,7 +10,7 @@ notesRouter.post('/upload-notes',verifyToken,upload.single('file'),notesContrrol
 notesRouter.get('/get-all-notes',verifyToken,notesContrroller.getAllNotes);
 notesRouter.get('/get-ncert-books/:categoryId',verifyToken,notesContrroller.getNcertBooks);
 notesRouter.get('/get-ncert-notes/:categoryId',verifyToken,notesContrroller.getNcertNotes);
-notesRouter.get('/get-pyq/:categoryId',verifyToken,notesContrroller.getPYQ);
+notesRouter.post('/get-previous-papers',verifyToken,upload.none(),notesContrroller.getPYQ);
 
 module.exports=notesRouter;
 
