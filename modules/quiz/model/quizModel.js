@@ -14,10 +14,9 @@ const quizSchema = new mongoose.Schema({
     required: true,
   },
   subject:{
-   type:String,
-   required:function(){
-    return (this.category==='10'|| this.category==='12');
-   }
+   type:mongoose.Schema.Types.ObjectId,
+   ref:"Subject",
+   
   },
   startTime:{
    type:Date,
@@ -42,7 +41,15 @@ const quizSchema = new mongoose.Schema({
     type:Number,
     default:0,
   },
-  
+  unlocked:{
+    type:Boolean,
+    default:function(){
+      if(this.level===1){
+        return true;
+      }
+      return false;
+    }
+  },
   questions:[{
     question: {
         type: String,

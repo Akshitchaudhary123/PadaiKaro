@@ -342,7 +342,7 @@ exports.quizCategoriesLevels = async(req,res)=>{
       let quiz = await Quiz.findById(categoryId);
     //   let quizCategory = quiz.category;
     //   console.log("quizCategory",quizCategory);
-      let quizLevels = await Quiz.find({'category':categoryId}).select('_id name level points');
+      let quizLevels = await Quiz.find({'category':categoryId}).select('_id name level points unlocked');
       console.log("quizLevels",quizLevels);
 
       let quizLevelIds = [];
@@ -353,9 +353,15 @@ exports.quizCategoriesLevels = async(req,res)=>{
       let scores = await Response.find({quiz:{'$in':quizLevelIds},user:userId}).select('quiz score');
 
       console.log("quizLevelIds",quizLevelIds);
-      quizLevels.forEach(level=>{
+      quizLevels.forEach((level,index)=>{
         let score = scores.find(score=>score.quiz.toString()===level._id.toString());
+        // console.log(score);
         level.score =score?score.score:0;
+
+        if(index>0){
+           let prevQuiz = quizLevels[index-1];
+            level.unlocked = prevQuiz.score>=prevQuiz.points*0.5;
+        }
 
       })
   

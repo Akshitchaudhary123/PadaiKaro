@@ -74,6 +74,9 @@ exports.saveResponse=async(req,res)=>{
         // console.log("time taken type is:",typeof(timeTaken));
 
         let quiz = await Quiz.findById(quizId);
+        let quizCategoryId = quiz?.category;
+        let quizSubjectId = quiz?.subject;
+        let quizLevel = quiz?.level;
         // let quizTotalPoints= quiz.points;
         // console.log("quizTotalPoints",quizTotalPoints);
         if(!quiz){
@@ -173,8 +176,8 @@ exports.saveResponse=async(req,res)=>{
          quizTotalMaxPoints += quizPoints;
          quizCount+=quizAdded
         }
-        let accuracy = (userTotalPoints/quizTotalMaxPoints)*100;
-        accuracy = Math.ceil(accuracy);
+        let accuracy = Math.ceil(userTotalPoints/quizTotalMaxPoints)*100;
+        // accuracy = Math.ceil(accuracy);
         console.log("accuracy",accuracy);
 
          user = await User.findOneAndUpdate({_id},{
@@ -196,6 +199,13 @@ exports.saveResponse=async(req,res)=>{
         
             })
         }
+        // if(percentage>50){
+        // let nextQuiz = await Quiz.findOne({category:quizCategoryId,subject:quizSubjectId,level:quizLevel+1});
+        // if(nextQuiz){
+        //     nextQuiz =nextQuiz.unlocked=true;
+        //     await nextQuiz.save();
+        // }
+        // }
 
         return res.send({
             statusCode:200,
