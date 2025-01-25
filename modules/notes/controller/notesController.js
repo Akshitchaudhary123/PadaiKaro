@@ -337,68 +337,55 @@ exports.getNcertNotes = async(req,res)=>{
         // console.log("category:",category);
         let Class = category.class;
         console.log("class :",Class);
-    //     let skip = (page-1)*limit;
-    //     let notes = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).select('-_id -__v ').skip(skip).limit(limit);
-    //     let totalRecord = await Notes.find({type:{$regex:'notes',$options:'i'},class:Class}).countDocuments();
-    //     if(!notes){
-    //      return res.send({
-    //      statusCode:404,
-    //      success:false,
-    //      message:"No Notes Found",
-    //      result:{}
- 
-    //      })
-        
-    //  }
+    
 
-    const data = await Notes.aggregate([
-      {
-        $match: {
-          type: { $regex: 'notes', $options: 'i' },
-          class: Class, 
-        },
-      },
-      {
-        $addFields: {
-          convertedSubject: { $toObjectId: '$subject' }, 
-        },
-      },
-      {
-        $lookup: {
-          from: 'subjects',
-          localField: 'convertedSubject',
-          foreignField: '_id',
-          as: 'subjectDetails', 
-        },
-      },
-      {
-        $group: {
-          _id: '$subject', // Group by the 'subject' field
-          subjectName: { $first: { $arrayElemAt: ['$subjectDetails.name', 0] } }, // Extract the subject name
-          icon: { $first: { $arrayElemAt: ['$subjectDetails.icon', 0] } }, // Extract the icon
-          color: { $first: { $arrayElemAt: ['$subjectDetails.color', 0] } }, // Extract the color
-          notes: {
-            $push: {
-              _id: '$_id', // Include the note's _id
-              title: '$title',
-              chapter:'$chapter',
-              chapterName:'$chapterName', // Include the title of the note
-              fileUrl: '$fileUrl',
-              fileSize: '$fileSize' // Include the file URL
+        const data = await Notes.aggregate([
+          {
+            $match: {
+              type: { $regex: 'notes', $options: 'i' },
+              class: Class, 
             },
           },
-        },
-      },
-      {
-        $project: {
-          _id: 0, // Exclude the grouped _id (subject)
-          subjectName: 1, // Include the subject name
-          icon: 1, // Include the icon
-          color: 1, // Include the color
-          books: 1, // Include the grouped notes array
-        },
-      },
-    ]);
+          {
+            $addFields: {
+              convertedSubject: { $toObjectId: '$subject' }, 
+            },
+          },
+          {
+            $lookup: {
+              from: 'subjects',
+              localField: 'convertedSubject',
+              foreignField: '_id',
+              as: 'subjectDetails', 
+            },
+          },
+          {
+            $group: {
+              _id: '$subject', // Group by the 'subject' field
+              subjectName: { $first: { $arrayElemAt: ['$subjectDetails.name', 0] } }, // Extract the subject name
+              icon: { $first: { $arrayElemAt: ['$subjectDetails.icon', 0] } }, // Extract the icon
+              color: { $first: { $arrayElemAt: ['$subjectDetails.color', 0] } }, // Extract the color
+              books: {
+                $push: {
+                  _id: '$_id', // Include the note's _id
+                  title: '$title', // Include the title of the note
+                  fileUrl: '$fileUrl',
+                  fileSize: '$fileSize' ,
+                  chapterName:'$chapterName'// Include the file URL
+                },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0, // Exclude the grouped _id (subject)
+              subjectName: 1, // Include the subject name
+              icon: 1, // Include the icon
+              color: 1, // Include the color
+              books: 1, // Include the grouped notes array
+            },
+          },
+        ]);
     
     console.log(JSON.stringify(data, null, 2));
  
