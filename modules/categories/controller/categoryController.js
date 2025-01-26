@@ -71,7 +71,7 @@ exports.createCategory = async(req,res)=>{
 exports.getCategory = async(req,res)=>{
 
     try {
-        let categories = await Category.find();
+        let categories = await Category.find().sort({class:1});
         if(!categories){
             return res.send({
                 statusCode:404,
