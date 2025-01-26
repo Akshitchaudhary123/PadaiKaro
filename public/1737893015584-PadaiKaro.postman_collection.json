@@ -1,0 +1,1023 @@
+{
+	"info": {
+		"_postman_id": "81221655-ffc2-4e74-b02c-ca17864fe8b6",
+		"name": "PadaiKaro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33523015"
+	},
+	"item": [
+		{
+			"name": "notes",
+			"item": [
+				{
+					"name": "upload-notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/91886/Downloads/My Resume.pdf"
+								},
+								{
+									"key": "Title",
+									"value": "Science",
+									"type": "text"
+								},
+								{
+									"key": "Category",
+									"value": "school",
+									"type": "text"
+								},
+								{
+									"key": "Type",
+									"value": "notes",
+									"type": "text"
+								},
+								{
+									"key": "Subject",
+									"value": "678d21e7450895328d8c6ce2",
+									"type": "text"
+								},
+								{
+									"key": "Class",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "chapter",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "chapterName",
+									"value": "Sound",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}api/notes/upload-notes",
+							"host": [
+								"{{localUrl}}api"
+							],
+							"path": [
+								"notes",
+								"upload-notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-notes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{apiUrl}}api/notes/get-all-notes",
+							"host": [
+								"{{apiUrl}}api"
+							],
+							"path": [
+								"notes",
+								"get-all-notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-ncert-books",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{localUrl}}api/notes/get-ncert-books/678ccb6d73506c54c6c9f58c",
+							"host": [
+								"{{localUrl}}api"
+							],
+							"path": [
+								"notes",
+								"get-ncert-books",
+								"678ccb6d73506c54c6c9f58c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-ncert-notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/notes/get-ncert-notes/6794cd401d87efa8140e1a24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"notes",
+								"get-ncert-notes",
+								"6794cd401d87efa8140e1a24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-previous-papers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "categoryId",
+									"value": "678ccb6d73506c54c6c9f58c",
+									"type": "text"
+								},
+								{
+									"key": "subjectId",
+									"value": "678fc4d83bf365db91b4a2c8",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}api/notes/get-previous-papers",
+							"host": [
+								"{{localUrl}}api"
+							],
+							"path": [
+								"notes",
+								"get-previous-papers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "send-OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"akshitchaudhary915@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/send-otp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"send-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"email\":\"deepakbharti3481@gmail.com\",\r\n    \"name\":\"deepak\",\r\n    \"password\":\"Deepak@1234\"\r\n\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/create-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"create-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify-OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"akshitchaudhary915@gmail.com\",\r\n    \"otp\":\"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/verify-otp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset-Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"akshitchaudhary915@gmail.com\",\r\n    \"newPassword\":\"Akshit@12345\",\r\n    \"confirmPassword\":\"Akshit@12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"akshitchaudhary915@gmail.com\",\r\n    \"password\":\"Akshit@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-details",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "edit-profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "akshit",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "asdfghjkl njklmdkc dcec",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "sdfghjklcdcd",
+									"type": "text"
+								},
+								{
+									"key": "interests",
+									"value": "[\"Nishant\",\"Akshit\"]",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/91886/Pictures/d2.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/edit-profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"edit-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-category",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "quiz",
+			"item": [
+				{
+					"name": "create-quiz",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/questions/upload-questions?questions={\n    \"questions\": [\n        {\n            \"question\": \"What is the capital of Germany?\",\n            \"answer\": \"Berlin\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Paris\" },\n                { \"number\": 2, \"value\": \"Rome\" },\n                { \"number\": 3, \"value\": \"Berlin\" },\n                { \"number\": 4, \"value\": \"Madrid\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the largest planet in our solar system?\",\n            \"answer\": \"Jupiter\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Earth\" },\n                { \"number\": 2, \"value\": \"Mars\" },\n                { \"number\": 3, \"value\": \"Jupiter\" },\n                { \"number\": 4, \"value\": \"Saturn\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Who wrote 'Romeo and Juliet'?\",\n            \"answer\": \"William Shakespeare\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Charles Dickens\" },\n                { \"number\": 2, \"value\": \"William Shakespeare\" },\n                { \"number\": 3, \"value\": \"Jane Austen\" },\n                { \"number\": 4, \"value\": \"Mark Twain\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the boiling point of water at sea level?\",\n            \"answer\": \"100°C\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"50°C\" },\n                { \"number\": 2, \"value\": \"100°C\" },\n                { \"number\": 3, \"value\": \"150°C\" },\n                { \"number\": 4, \"value\": \"200°C\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Which element has the chemical symbol 'O'?\",\n            \"answer\": \"Oxygen\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Gold\" },\n                { \"number\": 2, \"value\": \"Oxygen\" },\n                { \"number\": 3, \"value\": \"Iron\" },\n                { \"number\": 4, \"value\": \"Silver\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the square root of 81?\",\n            \"answer\": \"9\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"7\" },\n                { \"number\": 2, \"value\": \"8\" },\n                { \"number\": 3, \"value\": \"9\" },\n                { \"number\": 4, \"value\": \"10\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Which planet is known as the Red Planet?\",\n            \"answer\": \"Mars\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Earth\" },\n                { \"number\": 2, \"value\": \"Mars\" },\n                { \"number\": 3, \"value\": \"Venus\" },\n                { \"number\": 4, \"value\": \"Jupiter\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Who painted the Mona Lisa?\",\n            \"answer\": \"Leonardo da Vinci\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Vincent van Gogh\" },\n                { \"number\": 2, \"value\": \"Leonardo da Vinci\" },\n                { \"number\": 3, \"value\": \"Pablo Picasso\" },\n                { \"number\": 4, \"value\": \"Claude Monet\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the chemical formula of water?\",\n            \"answer\": \"H2O\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"H2O\" },\n                { \"number\": 2, \"value\": \"CO2\" },\n                { \"number\": 3, \"value\": \"O2\" },\n                { \"number\": 4, \"value\": \"CH4\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the tallest mountain in the world?\",\n            \"answer\": \"Mount Everest\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Mount Kilimanjaro\" },\n                { \"number\": 2, \"value\": \"Mount Everest\" },\n                { \"number\": 3, \"value\": \"K2\" },\n                { \"number\": 4, \"value\": \"Annapurna\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        }\n    ]\n}\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"questions",
+								"upload-questions"
+							],
+							"query": [
+								{
+									"key": "questions",
+									"value": "{\n    \"questions\": [\n        {\n            \"question\": \"What is the capital of Germany?\",\n            \"answer\": \"Berlin\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Paris\" },\n                { \"number\": 2, \"value\": \"Rome\" },\n                { \"number\": 3, \"value\": \"Berlin\" },\n                { \"number\": 4, \"value\": \"Madrid\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the largest planet in our solar system?\",\n            \"answer\": \"Jupiter\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Earth\" },\n                { \"number\": 2, \"value\": \"Mars\" },\n                { \"number\": 3, \"value\": \"Jupiter\" },\n                { \"number\": 4, \"value\": \"Saturn\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Who wrote 'Romeo and Juliet'?\",\n            \"answer\": \"William Shakespeare\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Charles Dickens\" },\n                { \"number\": 2, \"value\": \"William Shakespeare\" },\n                { \"number\": 3, \"value\": \"Jane Austen\" },\n                { \"number\": 4, \"value\": \"Mark Twain\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the boiling point of water at sea level?\",\n            \"answer\": \"100°C\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"50°C\" },\n                { \"number\": 2, \"value\": \"100°C\" },\n                { \"number\": 3, \"value\": \"150°C\" },\n                { \"number\": 4, \"value\": \"200°C\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Which element has the chemical symbol 'O'?\",\n            \"answer\": \"Oxygen\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Gold\" },\n                { \"number\": 2, \"value\": \"Oxygen\" },\n                { \"number\": 3, \"value\": \"Iron\" },\n                { \"number\": 4, \"value\": \"Silver\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the square root of 81?\",\n            \"answer\": \"9\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"7\" },\n                { \"number\": 2, \"value\": \"8\" },\n                { \"number\": 3, \"value\": \"9\" },\n                { \"number\": 4, \"value\": \"10\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Which planet is known as the Red Planet?\",\n            \"answer\": \"Mars\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Earth\" },\n                { \"number\": 2, \"value\": \"Mars\" },\n                { \"number\": 3, \"value\": \"Venus\" },\n                { \"number\": 4, \"value\": \"Jupiter\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"Who painted the Mona Lisa?\",\n            \"answer\": \"Leonardo da Vinci\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Vincent van Gogh\" },\n                { \"number\": 2, \"value\": \"Leonardo da Vinci\" },\n                { \"number\": 3, \"value\": \"Pablo Picasso\" },\n                { \"number\": 4, \"value\": \"Claude Monet\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the chemical formula of water?\",\n            \"answer\": \"H2O\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"H2O\" },\n                { \"number\": 2, \"value\": \"CO2\" },\n                { \"number\": 3, \"value\": \"O2\" },\n                { \"number\": 4, \"value\": \"CH4\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        },\n        {\n            \"question\": \"What is the tallest mountain in the world?\",\n            \"answer\": \"Mount Everest\",\n            \"options\": [\n                { \"number\": 1, \"value\": \"Mount Kilimanjaro\" },\n                { \"number\": 2, \"value\": \"Mount Everest\" },\n                { \"number\": 3, \"value\": \"K2\" },\n                { \"number\": 4, \"value\": \"Annapurna\" }\n            ],\n            \"quizType\": \"64a83c8d4e8b0f9f4200e1e3\"\n        }\n    ]\n}\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-quiz",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"10\",\r\n    \"quizType\":\"practice\",\r\n    \"subject\":\"science\",\r\n    \"level\":1,\r\n     \"points\":1000,\r\n     \"questions\": [\r\n        {\r\n            \"question\": \"What is the capital of France?\",\r\n            \"answer\": \"Paris\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"Berlin\" },\r\n                { \"number\": 2, \"value\": \"Madrid\" },\r\n                { \"number\": 3, \"value\": \"Paris\" },\r\n                { \"number\": 4, \"value\": \"Rome\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"What is 2 + 2?\",\r\n            \"answer\": \"4\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"3\" },\r\n                { \"number\": 2, \"value\": \"4\" },\r\n                { \"number\": 3, \"value\": \"5\" },\r\n                { \"number\": 4, \"value\": \"6\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"Which planet is known as the Red Planet?\",\r\n            \"answer\": \"Mars\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"Earth\" },\r\n                { \"number\": 2, \"value\": \"Mars\" },\r\n                { \"number\": 3, \"value\": \"Venus\" },\r\n                { \"number\": 4, \"value\": \"Jupiter\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"What is the chemical formula of water?\",\r\n            \"answer\": \"H2O\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"H2O\" },\r\n                { \"number\": 2, \"value\": \"CO2\" },\r\n                { \"number\": 3, \"value\": \"O2\" },\r\n                { \"number\": 4, \"value\": \"CH4\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"Who wrote 'Romeo and Juliet'?\",\r\n            \"answer\": \"William Shakespeare\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"Charles Dickens\" },\r\n                { \"number\": 2, \"value\": \"William Shakespeare\" },\r\n                { \"number\": 3, \"value\": \"Jane Austen\" },\r\n                { \"number\": 4, \"value\": \"Mark Twain\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"What is the boiling point of water at sea level?\",\r\n            \"answer\": \"100°C\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"50°C\" },\r\n                { \"number\": 2, \"value\": \"100°C\" },\r\n                { \"number\": 3, \"value\": \"150°C\" },\r\n                { \"number\": 4, \"value\": \"200°C\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"What is the tallest mountain in the world?\",\r\n            \"answer\": \"Mount Everest\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"Mount Kilimanjaro\" },\r\n                { \"number\": 2, \"value\": \"Mount Everest\" },\r\n                { \"number\": 3, \"value\": \"K2\" },\r\n                { \"number\": 4, \"value\": \"Annapurna\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"Which element has the chemical symbol 'O'?\",\r\n            \"answer\": \"Oxygen\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"Gold\" },\r\n                { \"number\": 2, \"value\": \"Oxygen\" },\r\n                { \"number\": 3, \"value\": \"Iron\" },\r\n                { \"number\": 4, \"value\": \"Silver\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"What is the square root of 64?\",\r\n            \"answer\": \"8\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"6\" },\r\n                { \"number\": 2, \"value\": \"7\" },\r\n                { \"number\": 3, \"value\": \"8\" },\r\n                { \"number\": 4, \"value\": \"9\" }\r\n            ]\r\n        },\r\n        {\r\n            \"question\": \"Who painted the Mona Lisa?\",\r\n            \"answer\": \"Leonardo da Vinci\",\r\n            \"options\": [\r\n                { \"number\": 1, \"value\": \"Vincent van Gogh\" },\r\n                { \"number\": 2, \"value\": \"Leonardo da Vinci\" },\r\n                { \"number\": 3, \"value\": \"Pablo Picasso\" },\r\n                { \"number\": 4, \"value\": \"Claude Monet\" }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/quiz/update-quiz",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"quiz",
+								"update-quiz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-quiz-questions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{apiUrl}}api/quiz/quiz-questions/67840874ec7203a3d1598552",
+							"host": [
+								"{{apiUrl}}api"
+							],
+							"path": [
+								"quiz",
+								"quiz-questions",
+								"67840874ec7203a3d1598552"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-quiz-categories-levels",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/quiz/quiz-categories-levels/678b3672cb8b6d6fcdfa6e04",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"quiz",
+								"quiz-categories-levels",
+								"678b3672cb8b6d6fcdfa6e04"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "quiz response",
+			"item": [
+				{
+					"name": "save-response",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"points\": 40,\r\n    \"startTime\": \"2025-01-02T08:00:00Z\",\r\n    \"endTime\": \"2025-01-02T09:00:00Z\",\r\n    \"questionSolved\": 7,\r\n    \"questionUnsolved\": 3,\r\n    \"quizId\":\"6775661dc6d83b3f1638081f\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/response/save-response",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"response",
+								"save-response"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-achievement-quiz",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/response/achievement-quiz/676e624ac0227d6fcd59d43d/Expert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"response",
+								"achievement-quiz",
+								"676e624ac0227d6fcd59d43d",
+								"Expert"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "get-quiz-categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}api/quiz/quiz-categories",
+							"host": [
+								"{{apiUrl}}api"
+							],
+							"path": [
+								"quiz",
+								"quiz-categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "Class 10",
+									"type": "text"
+								},
+								{
+									"key": "Class",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/create-category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"create-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "Class 10",
+									"type": "text"
+								},
+								{
+									"key": "Class",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/get-category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"get-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-category-subject",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "Class 10",
+									"type": "text"
+								},
+								{
+									"key": "Class",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/get-category-subjects/678fdba949a099a05c81a089",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"get-category-subjects",
+								"678fdba949a099a05c81a089"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subject-categories",
+			"item": [
+				{
+					"name": "create-subject",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "Class 10",
+									"type": "text"
+								},
+								{
+									"key": "Class",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/create-category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"create-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-subjects",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzZlNjI0YWMwMjI3ZDZmY2Q1OWQ0M2QiLCJuYW1lIjoiZGVlcGFrIiwiZW1haWwiOiJha3NoaXRjaGF1ZGhhcnk5MTVAZ21haWwuY29tIiwiaWF0IjoxNzM1NDAwOTIzLCJleHAiOjE3Mzc5OTI5MjN9.T48FTS4zIrpbdtzTT2bKVP7n4gynaLZN7SpaeMXUN78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "Class 10",
+									"type": "text"
+								},
+								{
+									"key": "Class",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/create-category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"create-category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://padaikaro.onrender.com"
+		}
+	]
+}

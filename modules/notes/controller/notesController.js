@@ -86,6 +86,7 @@ const { default: mongoose } = require('mongoose');
     if (chapter) query.chapter = chapter;
     if (chapterName) query.chapterName = chapterName;
     if (set) query.set = set;
+    if(year) query.year = year;
     
 
     let notes = await Notes.findOne(query);
