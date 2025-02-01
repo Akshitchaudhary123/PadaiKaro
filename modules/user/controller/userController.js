@@ -374,9 +374,10 @@ try {
 exports.login=async(req,res)=>{
 
     try {
-        let {email,password}= req.body;
+        let {email,password,fcmToken}= req.body;
         email=email?.toLowerCase().trim();
         password=password?.trim();
+        fcmToken=fcmToken?.trim();
     
         if(!email){
             return res.send({
@@ -419,6 +420,11 @@ exports.login=async(req,res)=>{
             }
     
             let token =  generateToken({_id:user._id,name:user.name,email:user.email});
+             user = await User.findOneAndUpdate({email:email},{
+                $set:{
+                    fcmToken:fcmToken
+                }
+            })
             return res.send({
                 statusCode: 200,
                 success: true,
